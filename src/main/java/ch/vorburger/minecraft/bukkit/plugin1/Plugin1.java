@@ -8,6 +8,7 @@ public class Plugin1 extends JavaPlugin {
     public void onEnable() {
 		getLogger().info("hello, world.  SwissKnightFirstBukky is running! More to come. Watch this space..");
 
+		getServer().getPluginManager().registerEvents(new PlayerLoginEventListener(), this);
 		getServer().getPluginManager().registerEvents(new PlayerMoveEventListener(), this);
     }
 
