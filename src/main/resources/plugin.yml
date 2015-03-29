@@ -1,3 +1,10 @@
 name: SwissKnightFirstBukky
 main: ch.vorburger.minecraft.bukkit.plugin1.Plugin1
 version: 0.0.1-SNAPSHOT
+commands:
+   zeus:
+      description: This is a demo command.
+      usage: /<command> [player]
+   firerain:
+      description: This is a demo command.
+      usage: /<command> [player]
