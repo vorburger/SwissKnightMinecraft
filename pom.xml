@@ -41,6 +41,8 @@
 					<outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
 					<testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
 				</configuration>
+	<!--
+			Huh, what happened, now I don't need this anymore? I *SWEAR* ;) it was broken earlier without this!
 				<dependencies>
 					<dependency>
 						<groupId>org.eclipse.xtend</groupId>
@@ -48,8 +50,8 @@
 						<version>${xtend.version}</version>
 					</dependency>
 				</dependencies>
+	-->
 			</plugin>
-
 		</plugins>
 	</build>
 
