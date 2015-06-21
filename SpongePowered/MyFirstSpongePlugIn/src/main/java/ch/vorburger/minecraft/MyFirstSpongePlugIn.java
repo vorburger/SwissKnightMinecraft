@@ -5,18 +5,21 @@ import org.spongepowered.api.Game;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Human;
-import org.spongepowered.api.entity.living.monster.Creeper;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.event.Subscribe;
 import org.spongepowered.api.event.block.BlockRedstoneUpdateEvent;
 import org.spongepowered.api.event.entity.player.PlayerJoinEvent;
 import org.spongepowered.api.event.state.PreInitializationEvent;
 import org.spongepowered.api.event.state.ServerStartedEvent;
+import org.spongepowered.api.event.state.ServerStartingEvent;
 import org.spongepowered.api.event.state.ServerStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.config.DefaultConfig;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.command.CommandCallable;
+import org.spongepowered.api.util.command.CommandMapping;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -29,15 +32,27 @@ import ninja.leaping.configurate.loader.ConfigurationLoader;
 @Plugin(id = "MyFirstSpongePlugIn", name = "My first Sponge Plug-In", version = "1.0")
 public class MyFirstSpongePlugIn {
 
-	@Inject
-	private Logger logger;
+	@Inject Game game;
+	@Inject Logger logger;
+	@Inject PluginContainer pluginContainer;
 
-	@Inject
 	@DefaultConfig(sharedRoot = true)
-	private ConfigurationLoader<CommentedConfigurationNode> configLoader;
-
-	@Inject
-	private Game game;
+	@Inject ConfigurationLoader<CommentedConfigurationNode> configLoader;
+	
+	@Subscribe
+	public void onServerStarting(ServerStartingEvent event) {
+		logger.info("hello ServerStartingEvent from MyFirstSpongePlugIn!");
+		
+		// https://docs.spongepowered.org/en/plugin/basics/commands/creating.html
+		// https://github.com/SpongePowered/Cookbook/blob/master/Plugin/WorldEditingTest/src/main/java/org/spongepowered/cookbook/plugin/WorldEditingTest.java
+		WorldTeleportCommand worldTeleportCommand = new WorldTeleportCommand();
+		CommandCallable tpwCommandSpec = worldTeleportCommand.getCommandSpec(game);
+		// TODO put this into a superclass / @Inject helper of WorldTeleportCommand.. 
+		Optional<CommandMapping> ok = game.getCommandDispatcher().register(pluginContainer, tpwCommandSpec , "tpw" ,"tpworld");
+		if (!ok.isPresent()) {
+			logger.error("/tpw Command could not be registered!! :-(");
+		}
+	}
 
 	@Subscribe
 	public void onPlayerJoin(PlayerJoinEvent event) {
