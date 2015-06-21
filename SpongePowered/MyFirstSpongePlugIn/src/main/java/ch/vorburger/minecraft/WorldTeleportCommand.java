@@ -15,7 +15,8 @@ import org.spongepowered.api.world.World;
 import com.flowpowered.math.vector.Vector3d;
 
 public class WorldTeleportCommand implements CommandExecutor {
-
+	// https://github.com/SpongePowered/Cookbook/blob/master/Plugin/WorldsTest/src/main/java/org/spongepowered/cookbook/plugin/WorldsTest.java
+	
 	private static final String ARG_WORLD = "world";
 
 	// TOOD @Inject Game game instead of argument below (and have it create by
@@ -33,8 +34,8 @@ public class WorldTeleportCommand implements CommandExecutor {
 		
 		World world = args.<World> getOne(ARG_WORLD).get();
 		
-		Vector3d spanwPosition = new Vector3d();
-		player.transferToWorld(world.getName(), spanwPosition);
+		Vector3d spawnPosition = world.getProperties().getSpawnPosition().toDouble();
+		player.transferToWorld(world.getName(), spawnPosition);
 		
 		return CommandResult.success();
 	}
