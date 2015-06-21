@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="output" path="bin"/>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/2.1-SNAPSHOT/e2fee1dfbc52661a9f2490d16223e8d71d94e3de/spongeapi-2.1-SNAPSHOT-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/org.spongepowered/spongeapi/2.1-SNAPSHOT/3e7f04c788ae895d9ee4b37d45ed255501a71398/spongeapi-2.1-SNAPSHOT.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/7ca0efbeb87ca845b5d7a0ac9c21a4b7b95f7b28/guava-17.0-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/17.0/9c6ef172e8de35fd8d4d8783e4821e57cdef7445/guava-17.0.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/d2a489573c0ed2c4942b3660decad5d65087b406/commons-lang3-3.3.2-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.3.2/90a3822c38ec8c996e84c16a3477ef632cbc87a3/commons-lang3-3.3.2.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.google.inject/guice/4.0/961359f8352b791c6443a207c847e25d6d3ca7cd/guice-4.0-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.google.inject/guice/4.0/f990a43d3725781b6db7cd0acf0a8b62dfd1649/guice-4.0.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-noise/1.0.1-SNAPSHOT/3de7a5baf65b8fd79302f92bf0b90a0110294d1a/flow-noise-1.0.1-SNAPSHOT-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-noise/1.0.1-SNAPSHOT/bfddff85287441521fb66ec22b59a463190966e1/flow-noise-1.0.1-SNAPSHOT.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-math/1.0.0/98e77ef1127475b49e4791bc687f0541ef2c6d4d/flow-math-1.0.0-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.flowpowered/flow-math/1.0.0/d9294930e4833f252d27485e4e1c684c23432b02/flow-math-1.0.0.jar" exported="true"/>
+	<classpathentry kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/1.3.9/40719ea6961c0cb6afaeb6a921eaa1f6afd4cfdf/jsr305-1.3.9.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-gson/1.2.2/dc364fc6f2e97279255df31dae25dad9c37f14c6/configurate-gson-1.2.2-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-gson/1.2.2/e33436df6db3f5457bbd7b08d0c3b91cad439d00/configurate-gson-1.2.2.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-hocon/1.2.2/325f7f8cc7025fa63d91f1c7f5fddc020c353118/configurate-hocon-1.2.2-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-hocon/1.2.2/6600c16ccca073b0076c7da5bb273be5ca1ee4b6/configurate-hocon-1.2.2.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/5.0.3/f0f24f6666c1a15c7e202e91610476bd4ce59368/asm-5.0.3-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/org.ow2.asm/asm/5.0.3/dcc2193db20e19e1feca8b1240dbbc4e190824fa/asm-5.0.3.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a6dc5db8a12928e583bd3f23e72d3ab611ecd58f/gson-2.2.4-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.12/58697792617f38bf86d8e26bc004aac505e516a9/slf4j-api-1.7.12-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/1.7.12/8e20852d05222dc286bf1c71d78d0531e177c317/slf4j-api-1.7.12.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/a00123f261762a7c5e0ec916a2c7c8298d29c400/javax.inject-1-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/aopalliance/aopalliance/1.0/4a4b6d692e17846a9f3da036438a7ac491d3c814/aopalliance-1.0-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/aopalliance/aopalliance/1.0/235ba8b489512805ac13a8f9ea77a1ca5ebe3e8/aopalliance-1.0.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-core/1.2.2/2c4dd003f5f34b1e765083c9753cfab468bf4955/configurate-core-1.2.2-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/ninja.leaping.configurate/configurate-core/1.2.2/7a08687b67a54e3609dae8fddeb9939a954f008a/configurate-core-1.2.2.jar" exported="true"/>
+	<classpathentry sourcepath="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.2.1/bdacf4f82ce9b29cd474bfde2e91eeb0ca623d28/config-1.2.1-sources.jar" kind="lib" path="/home/vorburger/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.2.1/f771f71fdae3df231bcd54d5ca2d57f0bf93f467/config-1.2.1.jar" exported="true"/>
 </classpath>
