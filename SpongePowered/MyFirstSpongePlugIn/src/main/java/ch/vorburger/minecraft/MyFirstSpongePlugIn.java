@@ -6,13 +6,16 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.player.gamemode.GameModes;
 import org.spongepowered.api.event.Subscribe;
 import org.spongepowered.api.event.block.BlockRedstoneUpdateEvent;
 import org.spongepowered.api.event.entity.player.PlayerJoinEvent;
 import org.spongepowered.api.event.state.PreInitializationEvent;
+import org.spongepowered.api.event.state.ServerAboutToStartEvent;
 import org.spongepowered.api.event.state.ServerStartedEvent;
 import org.spongepowered.api.event.state.ServerStartingEvent;
 import org.spongepowered.api.event.state.ServerStoppingEvent;
+import org.spongepowered.api.extra.skylands.SkylandsWorldGeneratorModifier;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.config.DefaultConfig;
@@ -20,6 +23,8 @@ import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.command.CommandCallable;
 import org.spongepowered.api.util.command.CommandMapping;
+import org.spongepowered.api.world.DimensionTypes;
+import org.spongepowered.api.world.GeneratorTypes;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -38,7 +43,25 @@ public class MyFirstSpongePlugIn {
 
 	@DefaultConfig(sharedRoot = true)
 	@Inject ConfigurationLoader<CommentedConfigurationNode> configLoader;
-	
+/*
+	@Subscribe
+    public void onServerAboutToStart(ServerAboutToStartEvent event) {
+		final SkylandsWorldGeneratorModifier skylandsModifier = new SkylandsWorldGeneratorModifier();
+        this.game.getRegistry().registerWorldGeneratorModifier(skylandsModifier);
+
+ 
+        this.game.getRegistry().getWorldBuilder()
+        	.name("skylands")
+	        .enabled(true)
+	        .loadsOnStartup(true)
+	        .keepsSpawnLoaded(true)
+	        .dimensionType(DimensionTypes.OVERWORLD)
+	        .generator(GeneratorTypes.OVERWORLD)
+	        .generatorModifiers(skylandsModifier)
+	        .gameMode(GameModes.CREATIVE)
+        .build();
+	}
+*/	
 	@Subscribe
 	public void onServerStarting(ServerStartingEvent event) {
 		logger.info("hello ServerStartingEvent from MyFirstSpongePlugIn!");
