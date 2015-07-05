@@ -6,16 +6,13 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.entity.player.gamemode.GameModes;
 import org.spongepowered.api.event.Subscribe;
 import org.spongepowered.api.event.block.BlockRedstoneUpdateEvent;
 import org.spongepowered.api.event.entity.player.PlayerJoinEvent;
 import org.spongepowered.api.event.state.PreInitializationEvent;
-import org.spongepowered.api.event.state.ServerAboutToStartEvent;
 import org.spongepowered.api.event.state.ServerStartedEvent;
 import org.spongepowered.api.event.state.ServerStartingEvent;
 import org.spongepowered.api.event.state.ServerStoppingEvent;
-import org.spongepowered.api.extra.skylands.SkylandsWorldGeneratorModifier;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.config.DefaultConfig;
@@ -23,8 +20,7 @@ import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.command.CommandCallable;
 import org.spongepowered.api.util.command.CommandMapping;
-import org.spongepowered.api.world.DimensionTypes;
-import org.spongepowered.api.world.GeneratorTypes;
+import org.spongepowered.api.util.command.spec.CommandSpec;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -39,13 +35,18 @@ public class MyFirstSpongePlugIn {
 
 	@Inject Game game;
 	@Inject Logger logger;
-	@Inject PluginContainer pluginContainer;
+	@Inject PluginContainer plugin;
 
 	@DefaultConfig(sharedRoot = true)
 	@Inject ConfigurationLoader<CommentedConfigurationNode> configLoader;
-/*
+	
+	Optional<CommandMapping> commandMapping = Optional.absent();
+	
+/*  https://github.com/SpongePowered/SpongeVanilla/issues/175
+ * 
 	@Subscribe
     public void onServerAboutToStart(ServerAboutToStartEvent event) {
+    	// https://github.com/SpongePowered/Cookbook/blob/master/Plugin/WorldsTest/src/main/java/org/spongepowered/cookbook/plugin/WorldsTest.java
 		final SkylandsWorldGeneratorModifier skylandsModifier = new SkylandsWorldGeneratorModifier();
         this.game.getRegistry().registerWorldGeneratorModifier(skylandsModifier);
 
@@ -71,8 +72,8 @@ public class MyFirstSpongePlugIn {
 		WorldTeleportCommand worldTeleportCommand = new WorldTeleportCommand();
 		CommandCallable tpwCommandSpec = worldTeleportCommand.getCommandSpec(game);
 		// TODO put this into a superclass / @Inject helper of WorldTeleportCommand.. 
-		Optional<CommandMapping> ok = game.getCommandDispatcher().register(pluginContainer, tpwCommandSpec , "tpw" ,"tpworld");
-		if (!ok.isPresent()) {
+		commandMapping = game.getCommandDispatcher().register(plugin, tpwCommandSpec , "tpw" ,"tpworld");
+		if (!commandMapping.isPresent()) {
 			logger.error("/tpw Command could not be registered!! :-(");
 		}
 	}
@@ -96,22 +97,11 @@ public class MyFirstSpongePlugIn {
 	}
 
 	@Subscribe
-	public void onBlockRedstoneUpdateEvent(BlockRedstoneUpdateEvent event) {
-		logger.info("onBlockRedstoneUpdateEvent: " + event.getBlock().toString());
-	}
-
-	@Subscribe
-	public void onPreInit(PreInitializationEvent event) {
-		logger.info("hello from MyFirstSpongePlugIn!");
-	}
-
-	@Subscribe
-	public void onServerStart(ServerStartedEvent event) {
-		logger.info("hello ServerStartedEvent from MyFirstSpongePlugIn!");
-	}
-
-	@Subscribe
-	public void disable(ServerStoppingEvent event) {
+	public void onServerStopping(ServerStoppingEvent event) {
 		logger.info("bye bye from MyFirstSpongePlugIn!");
+		
+		if (commandMapping.isPresent()) {
+			game.getCommandDispatcher().removeMapping(commandMapping.get());
+		}
 	}
 }
