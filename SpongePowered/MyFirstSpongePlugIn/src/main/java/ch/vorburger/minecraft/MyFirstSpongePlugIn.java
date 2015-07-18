@@ -6,6 +6,7 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.event.GameEvent;
 import org.spongepowered.api.event.Subscribe;
 import org.spongepowered.api.event.block.BlockRedstoneUpdateEvent;
 import org.spongepowered.api.event.entity.player.PlayerJoinEvent;
@@ -27,11 +28,12 @@ import org.spongepowered.api.world.World;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
+import ch.vorburger.hotea.minecraft.api.AbstractHotPlugin;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 @Plugin(id = "MyFirstSpongePlugIn", name = "My first Sponge Plug-In", version = "1.0")
-public class MyFirstSpongePlugIn {
+public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 
 	@Inject Game game;
 	@Inject Logger logger;
@@ -63,8 +65,8 @@ public class MyFirstSpongePlugIn {
         .build();
 	}
 */	
-	@Subscribe
-	public void onServerStarting(ServerStartingEvent event) {
+	@Override
+	protected void onLoaded(GameEvent event) {
 		logger.info("hello ServerStartingEvent from MyFirstSpongePlugIn!");
 		
 		// https://docs.spongepowered.org/en/plugin/basics/commands/creating.html
@@ -96,8 +98,8 @@ public class MyFirstSpongePlugIn {
 		}
 	}
 
-	@Subscribe
-	public void onServerStopping(ServerStoppingEvent event) {
+	@Override
+	protected void onStop(GameEvent event) {
 		logger.info("bye bye from MyFirstSpongePlugIn!");
 		
 		if (commandMapping.isPresent()) {
