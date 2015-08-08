@@ -2,6 +2,7 @@ package ch.vorburger.minecraft.logo;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.event.GameEvent;
 import org.spongepowered.api.plugin.Plugin;
@@ -16,7 +17,9 @@ import org.spongepowered.api.util.command.InvocationCommandException;
 import org.spongepowered.api.util.command.args.CommandContext;
 import org.spongepowered.api.util.command.spec.CommandExecutor;
 import org.spongepowered.api.util.command.spec.CommandSpec;
+import org.spongepowered.api.world.Location;
 
+import com.flowpowered.math.vector.Vector3d;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
@@ -34,13 +37,16 @@ public class LogoPlugin extends AbstractHotPlugin {
 
 	// TODO @Command("Just testing")
 	public void test(Player player) {
-		Turtle turtle = new Turtle(player.getLocation(), player.getRotation());
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 10; j++) {
-				turtle.forward();
-			}
-			turtle.right();
-		}
+		Turtle turtle = new Turtle(player.getLocation(), player.getRotation(), BlockTypes.STONE);
+		turtle.moveForward();
+		turtle.moveForward();
+
+//		for (int i = 0; i < 4; i++) {
+//			for (int j = 0; j < 10; j++) {
+//				turtle.forward();
+//			}
+//			turtle.right();
+//		}
 	}
 	
 
