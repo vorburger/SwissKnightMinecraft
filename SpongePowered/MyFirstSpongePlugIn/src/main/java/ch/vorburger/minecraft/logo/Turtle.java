@@ -4,11 +4,14 @@ import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.util.blockray.BlockRay;
+import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
 
 import com.flowpowered.math.imaginary.Quaterniond;
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
+import com.google.common.base.Optional;
 
 public class Turtle {
 
@@ -19,26 +22,38 @@ public class Turtle {
 	BlockType blockType;
 	boolean isSettingBlockOnMove = true;
 
-	Turtle(Location location, Vector3d rotation, BlockType blockType) {
-		this.location = getStartingLocation(location, rotation);
-		this.direction = getDirection(rotation);
+	Turtle(Location location, Direction direction, BlockType blockType) {
+		this.location = location;
+		this.direction = direction;
 		this.blockType = blockType;
 	}
 	
 	public Turtle(Entity player) {
+		this.location = getStartingLocation(player);
+		this.direction = getDirection(player.getRotation());
 		// TODO how to obtain Player's current Block? (+ Separate constructors for Entity & Player.)
-		this(player.getLocation(), player.getRotation(), BlockTypes.STONE);
+		this.blockType = BlockTypes.STONE;
 	}
 
-	private Location getStartingLocation(Location location, Vector3d rotation) {
+	private Location getStartingLocation(Entity entity) {
 		// TODO How to get the Location from where the Player is looking at?
 		// https://bukkit.org/threads/tutorial-how-to-calculate-vectors.138849/ ?
 
-		// TODO Forum post, this doesn't quite work, it's always "off" and too close...
+		Optional<BlockRayHit> block = BlockRay.from(entity).filter(BlockRay.ONLY_AIR_FILTER).end();
+		if (block.isPresent()) {
+			return block.get().getLocation();
+		} else {
+			System.err.println("BlockRay hasn't found anything, return Player location"); // TODO remove
+			return entity.getLocation();
+		}
+		
+		// TODO Forum post, this doesn't quite work, it's always "off" and too close... https://forums.spongepowered.org/t/how-to-get-the-location-the-player-is-looking-at-from-an-entity-location-and-rotation/8906
 		// TODO Try this https://forums.spongepowered.org/t/jumppad-plugin/6244 ??
 		// TODO double check impact of "BTW, right now SpongeAPI returns the rotations in a Vector3i with the mapping X -> yaw, Y -> pitch, Z -> roll. I'm changing that tomorrow to X -> pitch, Y -> yaw, Z -> roll to match flow-math (and the standard)." of https://forums.spongepowered.org/t/relative-teleportaion/7671/14
-        Vector3d direction = Quaterniond.fromAxesAnglesDeg(rotation.getY(), 360 - rotation.getX(), rotation.getZ()).getDirection();
-        return new Location(location.getExtent(), location.getPosition().add(direction)); 
+//		Location location = entity.getLocation();
+//		Vector3d rotation = entity.getRotation();
+//        Vector3d direction = Quaterniond.fromAxesAnglesDeg(rotation.getY(), 360 - rotation.getX(), rotation.getZ()).getDirection();
+//        return new Location(location.getExtent(), location.getPosition().add(direction)); 
 	}
 
 	private Direction getDirection(Vector3d rotation) {
