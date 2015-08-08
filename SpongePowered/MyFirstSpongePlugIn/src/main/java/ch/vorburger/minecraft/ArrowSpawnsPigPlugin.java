@@ -13,7 +13,7 @@ import org.spongepowered.api.world.World;
 
 import com.google.common.base.Optional;
 
-@Plugin(id = "ch.vorburger.minecraft.ArrowSpawnsPig", name = "Arrow spawns Pig", version = "1.0.0-SNAPSHOT")
+@Plugin(id = "ArrowSpawnsPig", name = "Arrow spawns Pig", version = "1.0.0-SNAPSHOT")
 public class ArrowSpawnsPigPlugin {
 
 	// private Arrow arrow;
