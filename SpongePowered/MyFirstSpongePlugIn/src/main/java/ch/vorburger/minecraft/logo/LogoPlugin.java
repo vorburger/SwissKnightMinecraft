@@ -37,7 +37,7 @@ public class LogoPlugin extends AbstractHotPlugin {
 
 	// TODO @Command("Just testing")
 	public void test(Player player) {
-		Turtle turtle = new Turtle(player.getLocation(), player.getRotation(), BlockTypes.STONE);
+		Turtle turtle = new Turtle(player);
 		turtle.moveForward();
 //		turtle.moveForward();
 
