@@ -8,11 +8,18 @@ import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
 
-import com.flowpowered.math.imaginary.Quaterniond;
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 import com.google.common.base.Optional;
 
+/**
+ * Turtle.
+ *
+ * @see <a href="https://en.wikipedia.org/wiki/Logo_(programming_language)">Logo (programming language) on Wikipedia</a>
+ * @see <a href="http://computercraft.info/wiki/Turtle_(API)">Computer Craft Turtle API</a> 
+ * 
+ * @author Michael Vorburger
+ */
 public class Turtle {
 
 	// TODO How to, optionally, "connect" this to a Player??
