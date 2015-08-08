@@ -32,7 +32,7 @@ import ch.vorburger.hotea.minecraft.api.AbstractHotPlugin;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "MyFirstSpongePlugIn", name = "My first Sponge Plug-In", version = "1.0")
+@Plugin(id = "MyFirstSponge", name = "My first Sponge Plug-In", version = "1.0")
 public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 
 	@Inject Game game;
