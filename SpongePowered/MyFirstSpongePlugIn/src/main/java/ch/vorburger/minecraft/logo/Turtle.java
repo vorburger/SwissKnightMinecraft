@@ -130,18 +130,18 @@ public class Turtle {
 
 	/** Space */
 	void moveUp() {
-		// TODO move(direction.negate());
+		move(Direction.UP);
 	}
 
 	/** Shift */
 	void moveDown() {
-		// TODO move(direction.negate());
+		move(Direction.DOWN);
 	}
 
 	private void move(Direction directionToMove) {
 		setBlockIfPenDown();
 		Vector3i oldBlockPosition = location.getBlockPosition();
-		// TODO LOW For performance, it would be better if Direction class had a toVector3i 
+		// TODO For performance, it would be better if Direction class had a toVector3i 
 		Vector3i newBlockPosition = oldBlockPosition.add(directionToMove.toVector3d().toInt());
 		location = new Location(location.getExtent(), newBlockPosition);
 	}

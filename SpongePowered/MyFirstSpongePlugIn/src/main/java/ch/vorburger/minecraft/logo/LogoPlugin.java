@@ -38,12 +38,16 @@ public class LogoPlugin extends AbstractHotPlugin {
 	// TODO @Command("Just testing")
 	public void test(Player player) {
 		Turtle turtle = new Turtle(player);
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 10; j++) {
-				turtle.moveForward();
+		for (int h = 0; h < 3; h++) {
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < 10; j++) {
+					turtle.moveForward();
+				}
+				turtle.turnRight();
 			}
-			turtle.turnRight();
+			turtle.moveUp();
 		}
+		// TODO For Dév, fill everything inside the house with Air.. eval. using /fill command!
 	}
 	
 
