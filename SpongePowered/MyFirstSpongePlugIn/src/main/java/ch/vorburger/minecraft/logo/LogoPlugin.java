@@ -38,15 +38,12 @@ public class LogoPlugin extends AbstractHotPlugin {
 	// TODO @Command("Just testing")
 	public void test(Player player) {
 		Turtle turtle = new Turtle(player);
-		turtle.moveForward();
-//		turtle.moveForward();
-
-//		for (int i = 0; i < 4; i++) {
-//			for (int j = 0; j < 10; j++) {
-//				turtle.forward();
-//			}
-//			turtle.right();
-//		}
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 10; j++) {
+				turtle.moveForward();
+			}
+			turtle.turnRight();
+		}
 	}
 	
 

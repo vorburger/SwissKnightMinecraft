@@ -39,7 +39,8 @@ public class Turtle {
 		// TODO How to get the Location from where the Player is looking at?
 		// https://bukkit.org/threads/tutorial-how-to-calculate-vectors.138849/ ?
 
-		Optional<BlockRayHit> block = BlockRay.from(entity).filter(BlockRay.ONLY_AIR_FILTER).end();
+		@SuppressWarnings("unchecked")
+		Optional<BlockRayHit> block = BlockRay.from(entity).filter(BlockRay.ONLY_AIR_FILTER, BlockRay.maxDistanceFilter(entity.getLocation().getPosition(), 100)).end();
 		if (block.isPresent()) {
 			return block.get().getLocation();
 		} else {
@@ -79,12 +80,42 @@ public class Turtle {
 	
 	// ---
 
-	void turnRight() {		
-		// TODO direction = direction. how to?
+	void turnRight() {
+		switch (direction) {
+		case NORTH:
+			direction = Direction.EAST; 
+			break;
+		case EAST:
+			direction = Direction.SOUTH; 
+			break;
+		case SOUTH:
+			direction = Direction.WEST; 
+			break;
+		case WEST:
+			direction = Direction.NORTH; 
+			break;
+		default:
+			throw new IllegalStateException(direction.toString());
+		}
 	}
 
 	void turnLeft() {
-		// TODO
+		switch (direction) {
+		case NORTH:
+			direction = Direction.WEST; 
+			break;
+		case EAST:
+			direction = Direction.NORTH; 
+			break;
+		case SOUTH:
+			direction = Direction.EAST; 
+			break;
+		case WEST:
+			direction = Direction.SOUTH; 
+			break;
+		default:
+			throw new IllegalStateException(direction.toString());
+		}
 	}
 		
 	/** W */
