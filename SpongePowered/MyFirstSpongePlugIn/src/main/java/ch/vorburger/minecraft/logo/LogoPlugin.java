@@ -39,7 +39,7 @@ public class LogoPlugin extends AbstractHotPlugin {
 	public void test(Player player) {
 		Turtle turtle = new Turtle(player.getLocation(), player.getRotation(), BlockTypes.STONE);
 		turtle.moveForward();
-		turtle.moveForward();
+//		turtle.moveForward();
 
 //		for (int i = 0; i < 4; i++) {
 //			for (int j = 0; j < 10; j++) {

@@ -21,23 +21,24 @@ public class Turtle {
 	boolean isSettingBlockOnMove = true;
 
 	Turtle(Location location, Vector3d rotation, BlockType blockType) {
-		this.location = location;
-		this.direction = getDirectionFromRotation(rotation);
+		this.location = new Location(location.getExtent(), location.getBlockPosition().add(getDirectionFromRotation(rotation)));
+		this.direction = Vector3i0; // getDirectionFromRotation(rotation);
 		this.blockType = blockType;
 	}
 	
 	private Vector3i getDirectionFromRotation(Vector3d rotation) {
 		// https://bukkit.org/threads/tutorial-how-to-calculate-vectors.138849/
 		int yaw = rotation.getFloorX(); // angle the player is rotating horizontally in, in degrees
-		// int pitch = rotation.getFloorY(); // angle up/down the player is looking in, in degrees
+		int pitch = rotation.getFloorY(); // angle up/down the player is looking in, in degrees
 		
-		yaw = Math.abs(yaw);
-System.out.println(yaw);
-
-		if (yaw < 44) return Vector3i0;
-		else if (yaw < 134) return Vector3i90;
-		else if (yaw < 224) return Vector3i180;
-		else return Vector3i270;
+		double pitchInRadian = ((pitch + 90) * Math.PI) / 180;
+		double yawInRadian   = (( yaw  + 90) * Math.PI) / 180;
+		
+		double x = Math.sin(pitchInRadian) * Math.cos(yawInRadian);
+		double y = Math.sin(pitchInRadian) * Math.sin(yawInRadian);
+		double z = Math.cos(pitchInRadian);
+		
+		return new Vector3i(x, y, z);
 	}
 
 	// ---
@@ -87,12 +88,12 @@ System.out.println(yaw);
 	}
 
 	private void move(Vector3i moveDirection) {
+		setBlockIfPenDown();
 		Vector3i oldBlockPosition = location.getBlockPosition();
 System.out.println(oldBlockPosition);
 		Vector3i newBlockPosition = oldBlockPosition.add(moveDirection);
 		location = new Location(location.getExtent(), newBlockPosition);
 System.out.println(location);
-		setBlockIfPenDown();
 	}
 
 	private void setBlockIfPenDown() {
