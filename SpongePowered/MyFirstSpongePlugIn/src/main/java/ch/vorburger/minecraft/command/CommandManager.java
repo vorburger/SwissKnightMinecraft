@@ -38,6 +38,7 @@ public class CommandManager {
             if (commandAnnotation != null) {
                 if (isValidHandler(method)) {
                 	final String commandDescription = commandAnnotation.value();
+                	// TODO handle diff. args - for now, it's hard-coded to support 1 Player arg., only.
                 	registerCommand(plugin, method.getName(), commandDescription, new CommandExecutorWithoutResultThrowsThrowable() {
             			public void execute(CommandSource src, CommandContext args) throws Throwable {
             				Player player = (Player) src; // TODO if instanceof

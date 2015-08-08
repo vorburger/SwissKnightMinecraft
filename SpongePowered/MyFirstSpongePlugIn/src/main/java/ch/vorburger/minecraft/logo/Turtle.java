@@ -1,5 +1,7 @@
 package ch.vorburger.minecraft.logo;
 
+import java.util.NoSuchElementException;
+
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.Entity;
@@ -42,12 +44,17 @@ public class Turtle {
 		this.blockType = BlockTypes.STONE;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Location getStartingLocation(Entity entity) {
 		// TODO How to get the Location from where the Player is looking at?
 		// https://bukkit.org/threads/tutorial-how-to-calculate-vectors.138849/ ?
 
-		@SuppressWarnings("unchecked")
-		Optional<BlockRayHit> block = BlockRay.from(entity).filter(BlockRay.ONLY_AIR_FILTER, BlockRay.maxDistanceFilter(entity.getLocation().getPosition(), 100)).end();
+		Optional<BlockRayHit> block = Optional.absent();
+		try {
+			block = BlockRay.from(entity).filter(BlockRay.ONLY_AIR_FILTER, BlockRay.maxDistanceFilter(entity.getLocation().getPosition(), 100)).end();
+		} catch (NoSuchElementException e) {
+			// Caused by: java.util.NoSuchElementException: Filter limit reached
+		}
 		if (block.isPresent()) {
 			return block.get().getLocation();
 		} else {
