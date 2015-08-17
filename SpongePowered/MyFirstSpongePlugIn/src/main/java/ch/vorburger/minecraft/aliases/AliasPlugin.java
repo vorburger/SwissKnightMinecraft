@@ -9,6 +9,7 @@ import org.spongepowered.api.service.command.CommandService;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.command.CommandSource;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.MapMaker;
 import com.google.inject.Inject;
 
@@ -38,19 +39,29 @@ public class AliasPlugin extends AbstractHotPluginWithCommands {
 		}
 	}
 
-	@Command("register a new Alias command")
+	@Command("list all / register new / delete Alias command")
+	public void alias(CommandSource commandSource, Optional<String> name, Optional<String> commandsToAlias) {
+		if (name.isPresent() && commandsToAlias.isPresent())
+			alias(commandSource, name.get(), commandsToAlias.get());
+		else if (name.isPresent() && !commandsToAlias.isPresent())
+			alias(commandSource, name.get());
+		else // !name.isPresent() && !commandsToAlias.isPresent()
+			alias(commandSource);
+	}
+	
+	// @Command("register a new Alias command")
 	public void alias(CommandSource commandSource, String name, String commandsToAlias) {
 		Script script = new Script(/*name, */commandsToAlias);
 		commandRegistery.registerCommand(plugin, name, script.getCommands().toString(), script.asCommandExecutor(commandService));
 		aliases.put(name, script);
 	}
 	
-	@Command("list all available Aliases commands")
+	// @Command("list all available Aliases commands")
 	public void alias(CommandSource commandSource) {
 		commandSource.sendMessage(Texts.of(aliases.keySet().toString()));
 	}
 
-	@Command("delete an Alias command")
+	// @Command("delete an Alias command")
 	public void alias(CommandSource commandSource, String name) {
 		if (aliases.remove(name) != null)
 			commandRegistery.unregister(name);
