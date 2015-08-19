@@ -175,9 +175,10 @@ public class Turtle {
 		location.removeBlock();
 	}
 
-	void interact() {
-		location.interactBlock();
-	}
+//	void interact() {
+//		// TODO missing Direction arg, req. in latest 2.1-SNAPSHOT ?
+//		location.interactBlock();
+//	}
 	
 	void dig() {
 		location.digBlock();

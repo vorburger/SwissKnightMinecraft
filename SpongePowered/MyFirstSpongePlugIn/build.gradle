@@ -23,6 +23,15 @@ dependencies {
     }
     compile(group: 'ch.vorburger.hotea.minecraft', name: 'api', version:'1.0.0-SNAPSHOT') {
     }
+    testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
 apply plugin: 'eclipse'
+
+compileJava {
+     options.compilerArgs << '-parameters'
+}
+     
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ["-parameters"]  
+}

@@ -80,10 +80,10 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 		getTurtle(player).remove();
 	}
 
-	@Command("Make Turtle interact")
-	public void inter(Player player) {
-		getTurtle(player).interact();
-	}
+//	@Command("Make Turtle interact")
+//	public void inter(Player player) {
+//		getTurtle(player).interact();
+//	}
 
 	@Command("Make Turtle dig")
 	public void dig(Player player) {
