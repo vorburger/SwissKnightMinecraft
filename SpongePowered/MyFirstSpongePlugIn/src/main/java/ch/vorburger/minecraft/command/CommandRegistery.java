@@ -18,8 +18,10 @@ import org.spongepowered.api.util.command.args.CommandContext;
 import org.spongepowered.api.util.command.args.CommandElement;
 import org.spongepowered.api.util.command.spec.CommandExecutor;
 import org.spongepowered.api.util.command.spec.CommandSpec;
+import org.spongepowered.api.util.command.spec.CommandSpec.Builder;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 
 public class CommandRegistery {
@@ -34,9 +36,10 @@ public class CommandRegistery {
 	}
 
 	public void registerCommand(PluginContainer plugin, final List<String> commandNameAndAliases, String commandDescription, final CommandExecutor commandExecutor, CommandElement... args)  {
-		final CommandCallable spec = CommandSpec.builder().description(Texts.of(commandDescription))
-				.arguments(args)
-				.executor(commandExecutor).build();
+		final Builder builder = CommandSpec.builder();
+		if (!Strings.isNullOrEmpty(commandDescription))
+			builder.description(Texts.of(commandDescription));
+		final CommandCallable spec = builder.arguments(args).executor(commandExecutor).build();
 
 		final Optional<CommandMapping> newCommand = game.getCommandDispatcher().register(plugin, spec, commandNameAndAliases);
 		if (!newCommand.isPresent()) {

@@ -13,7 +13,7 @@ public @interface Command {
 	/**
 	 * Description.
 	 */
-	String value();
+	String value() default "";
 
 	String[] aliases() default { };
 
