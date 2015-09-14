@@ -59,10 +59,10 @@ import com.google.inject.Inject;
  */
 public class CommandManager {
 
-	private @Inject Logger logger;
-	private @Inject Game game;
+	protected @Inject Logger logger;
+	protected @Inject Game game;
 	protected @Inject CommandHelper commandHelper;
-	private @Inject CommandRegistery commandRegistery;
+	protected @Inject CommandRegistery commandRegistery;
 
 	// @see org.spongepowered.common.event.SpongeEventManager.register(PluginContainer, Object)
 	public void register(final PluginContainer plugin, final Object instanceOfClassWithCommandAnnotatedMethods) {
@@ -161,7 +161,7 @@ public class CommandManager {
 		return commandElements;
 	}
 
-	private Optional<CommandElement> getCommandElement(String name, Type type, boolean isVarArgs) {
+	protected Optional<CommandElement> getCommandElement(String name, Type type, boolean isVarArgs) {
     	if (type instanceof Class) {
     		Class<?> typeClass = (Class<?>) type;
     		if (Player.class.isAssignableFrom(typeClass)) {
@@ -179,7 +179,7 @@ public class CommandManager {
 		return Optional.absent();
 	}
 
-	private boolean isValidHandler(final Method method) {
+	protected boolean isValidHandler(final Method method) {
 		final int modifiers = method.getModifiers();
         if (Modifier.isStatic(modifiers) || !Modifier.isPublic(modifiers) || Modifier.isAbstract(modifiers)
                 || method.getDeclaringClass().isInterface()
