@@ -147,6 +147,8 @@ public class CommandManager {
     			return Optional.of(GenericArguments.playerOrSource(Texts.of(name), game));
     		} else if (String.class.isAssignableFrom(typeClass)) {
     			return Optional.of(GenericArguments.string(Texts.of(name)));    			
+    		} else if (Integer.TYPE.isAssignableFrom(typeClass) || Integer.class.isAssignableFrom(typeClass)) {
+    			return Optional.of(GenericArguments.integer(Texts.of(name)));    			
     		}
     	}
 		return Optional.absent();

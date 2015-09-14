@@ -14,12 +14,12 @@ import ch.vorburger.minecraft.command.CommandManager.MethodArg;
 
 public class CommandManagerTest {
 
-	@Command void alias(CommandSource commandSource, Optional<String> name, Optional<String> commandsToAlias) { };
+	@Command void test(CommandSource commandSource, Optional<String> name, int n, String commandToRepeat) { };
 
 	@Test public void getCommandElements() throws Exception {
-		Method method = this.getClass().getDeclaredMethod("alias", CommandSource.class, Optional.class, Optional.class);
+		Method method = this.getClass().getDeclaredMethod("test", CommandSource.class, Optional.class, Integer.TYPE, String.class);
 		List<MethodArg> methodArgs = new CommandManager().getMethodArgs(method);
-		assertEquals(3, methodArgs.size());
+		assertEquals(4, methodArgs.size());
 		
 		assertEquals("commandSource", methodArgs.get(0).name);
 		assertFalse(methodArgs.get(0).optional);
@@ -29,8 +29,14 @@ public class CommandManagerTest {
 		assertTrue(methodArgs.get(1).optional);
 		assertEquals(String.class, methodArgs.get(1).type);		
 
-		assertEquals("commandsToAlias", methodArgs.get(2).name);
-		assertTrue(methodArgs.get(2).optional);
-		assertEquals(String.class, methodArgs.get(2).type);		
+		assertEquals("n", methodArgs.get(2).name);
+		assertFalse(methodArgs.get(2).optional);
+		assertEquals(Integer.TYPE, methodArgs.get(2).type);
+		
+		assertEquals("commandToRepeat", methodArgs.get(3).name);
+		assertFalse(methodArgs.get(3).optional);
+		assertEquals(String.class, methodArgs.get(3).type);		
+
+		// TODO test vararg, array, and list
 	}
 }
