@@ -8,12 +8,7 @@ import org.spongepowered.api.Game;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.command.CommandCallable;
-import org.spongepowered.api.util.command.CommandException;
 import org.spongepowered.api.util.command.CommandMapping;
-import org.spongepowered.api.util.command.CommandResult;
-import org.spongepowered.api.util.command.CommandSource;
-import org.spongepowered.api.util.command.InvocationCommandException;
-import org.spongepowered.api.util.command.args.CommandContext;
 import org.spongepowered.api.util.command.args.CommandElement;
 import org.spongepowered.api.util.command.spec.CommandExecutor;
 import org.spongepowered.api.util.command.spec.CommandSpec;
@@ -50,18 +45,7 @@ public class CommandHelper {
 			final CommandExecutorWithoutResultThrowsThrowable commandExecutorWithoutResultThrowsThrowable,
 			CommandElement... args) 
 	{
-		return registerCommand(plugin, commandNameAndAliases, commandDescription, new CommandExecutor() {
-			public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-				try {
-					commandExecutorWithoutResultThrowsThrowable.execute(src, args);
-					return CommandResult.success();
-				} catch (Throwable e) {
-					final String msg = "/" + commandNameAndAliases + " failed: " + e.getMessage();
-					logger.error(msg, e);
-					throw new InvocationCommandException(Texts.builder(msg).build(), e);
-				}
-			}
-		}, args);
+		return registerCommand(plugin, commandNameAndAliases, commandDescription, CommandExecutorAdapter.adapt(commandExecutorWithoutResultThrowsThrowable), args);
 	}
 
 	public Optional<CommandMapping> createCommand(PluginContainer plugin, String name, String commandDescription, CommandExecutorWithoutResultThrowsThrowable commandExecutorWithoutResultThrowsThrowable, CommandElement... args) {
