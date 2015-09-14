@@ -37,16 +37,23 @@ import org.spongepowered.api.Game;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.util.command.CommandMapping;
 import org.spongepowered.api.util.command.CommandSource;
 import org.spongepowered.api.util.command.args.CommandContext;
 import org.spongepowered.api.util.command.args.CommandElement;
 import org.spongepowered.api.util.command.args.GenericArguments;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
 /**
- * TODO Doc
+ * TODO Better doc.
+ * 
+ * TODO Finish implementation (or re-simplify again?) - this currently only works for simple cases.
+ * 
+ * Supports Optional<T> to indicate optional Command arguments (creates GenericArguments.optional).
+ * Supports "varargs" String... to indicate "everything that follows" (creates GenericArguments.remainingJoinedStrings)
  * 
  * @author Michael Vorburger
  */
@@ -54,6 +61,7 @@ public class CommandManager {
 
 	private @Inject Logger logger;
 	private @Inject Game game;
+	protected @Inject CommandHelper commandHelper;
 	private @Inject CommandRegistery commandRegistery;
 
 	// @see org.spongepowered.common.event.SpongeEventManager.register(PluginContainer, Object)
@@ -66,12 +74,14 @@ public class CommandManager {
                 	final String commandDescription = commandAnnotation.value();
                 	final List<String> commandNameAndAliases = getCommandNameAndAliases(method);
                 	final List<CommandElement> args = getCommandElements(method);
-					commandRegistery.registerCommand(plugin, commandNameAndAliases, commandDescription, new CommandExecutorWithoutResultThrowsThrowable() {
+                	Optional<CommandMapping> cmd = commandHelper.createCommand(plugin, commandNameAndAliases, commandDescription, new CommandExecutorWithoutResultThrowsThrowable() {
             			public void execute(CommandSource src, CommandContext args) throws Throwable {
             				Player player = (Player) src; // TODO if instanceof
             				method.invoke(instanceOfClassWithCommandAnnotatedMethods, player);
             			}
             		}, args.toArray(new CommandElement[0]));
+                	if (cmd.isPresent())
+                		commandRegistery.register(cmd.get());
                 } else {
                 	logger.warn("The method {} on {} has @{} but has the wrong signature", method, handle.getName(), Command.class.getName());
                 }
@@ -92,6 +102,7 @@ public class CommandManager {
 		String name;
 		Type type;
 		boolean optional = false;
+		boolean vararg = false;
 	}
 
 	protected List<MethodArg> getMethodArgs(Method method) {
@@ -99,26 +110,32 @@ public class CommandManager {
     	Parameter[] parameters = method.getParameters();
 		List<MethodArg> args = new ArrayList<>(parameters.length);
 		for (Parameter parameter : parameters) {
-	    	if (!parameter.isNamePresent())
-	    		// https://docs.oracle.com/javase/tutorial/reflect/member/methodparameterreflection.html
-	    		throw new IllegalStateException("Needs javac -parameters; or, in Eclipse: 'Store information about method parameters (usable via reflection)' in Window -> Preferences -> Java -> Compiler");
-	    	MethodArg arg = new MethodArg();
-	    	args.add(arg);
-	    	String name = parameter.getName();
-	    	arg.name = name;
-	    	Type type = parameter.getParameterizedType();
-	    	if (type instanceof ParameterizedType) {
-	    		ParameterizedType parameterizedType = (ParameterizedType) type;
-	    		Type[] actualTypes = parameterizedType.getActualTypeArguments();
-	    		Type rawType = parameterizedType.getRawType();
-	    		if (Optional.class.isAssignableFrom((Class<?>)rawType)) {
-    				arg.optional = true;
-	    			arg.type = actualTypes[0];
-	    		}
-	    	} 
-	    	if (arg.type == null) {
-	    		arg.type = type;
-	    	}
+		    	if (!parameter.isNamePresent())
+		    		// https://docs.oracle.com/javase/tutorial/reflect/member/methodparameterreflection.html
+		    		throw new IllegalStateException("Needs javac -parameters; or, in Eclipse: 'Store information about method parameters (usable via reflection)' in Window -> Preferences -> Java -> Compiler");
+		    	MethodArg arg = new MethodArg();
+		    	args.add(arg);
+		    	
+		    	String name = parameter.getName();
+		    	arg.name = name;
+		    	
+		    	Type type = parameter.getParameterizedType();
+		    	if (type instanceof ParameterizedType) {
+		    		ParameterizedType parameterizedType = (ParameterizedType) type;
+		    		Type[] actualTypes = parameterizedType.getActualTypeArguments();
+		    		Type rawType = parameterizedType.getRawType();
+		    		if (Optional.class.isAssignableFrom((Class<?>)rawType)) {
+	    				arg.optional = true;
+		    			arg.type = actualTypes[0];
+		    		}
+		    	}
+		    	
+		    	if (arg.type == null) {
+		    		arg.type = type;
+		    	}
+		}
+		if (method.isVarArgs()) {
+			Iterables.getLast(args).vararg = true;
 		}
 		return args;
 	}
@@ -126,19 +143,25 @@ public class CommandManager {
 	protected List<CommandElement> getCommandElements(Method method) {
 		List<CommandElement> commandElements = new ArrayList<>(method.getParameterCount());
 		for (MethodArg arg : getMethodArgs(method)) {
-			Optional<CommandElement> optCommandElement = getCommandElement(arg.name, arg.type);
+			Optional<CommandElement> optCommandElement = getCommandElement(arg.name, arg.type, arg.vararg);
 			if (!optCommandElement.isPresent())
 				throw new IllegalArgumentException("@Command method " + method.toString() + " parameter unsupported type: " + arg.type);
-	    	CommandElement commandElement = optCommandElement.get();
-	    	if (arg.optional)
-	    		commandElement = GenericArguments.optional(commandElement);
-	    	commandElement = GenericArguments.onlyOne(commandElement);
-	    	commandElements.add(commandElement);
+			CommandElement commandElement = optCommandElement.get();
+			if (arg.optional)
+				commandElement = GenericArguments.optional(commandElement);
+			if (arg.vararg)
+				if (String.class.equals(arg.type))
+					commandElement = GenericArguments.remainingJoinedStrings(Texts.of(arg.name));
+				else
+					throw new IllegalArgumentException("@Command method " + method.toString() + " last vararg parameter unsupported type, must be String: " + arg.type);
+			else
+				commandElement = GenericArguments.onlyOne(commandElement);
+			commandElements.add(commandElement);
 		}
 		return commandElements;
 	}
 
-	private Optional<CommandElement> getCommandElement(String name, Type type) {
+	private Optional<CommandElement> getCommandElement(String name, Type type, boolean isVarArgs) {
     	if (type instanceof Class) {
     		Class<?> typeClass = (Class<?>) type;
     		if (Player.class.isAssignableFrom(typeClass)) {
@@ -146,7 +169,9 @@ public class CommandManager {
     		} else if (CommandSource.class.isAssignableFrom(typeClass)) {
     			return Optional.of(GenericArguments.playerOrSource(Texts.of(name), game));
     		} else if (String.class.isAssignableFrom(typeClass)) {
-    			return Optional.of(GenericArguments.string(Texts.of(name)));    			
+    			return Optional.of(GenericArguments.string(Texts.of(name)));
+    		} else if (typeClass.isArray() && isVarArgs && typeClass.getComponentType().equals(String.class)) {
+    			return Optional.of(GenericArguments.string(Texts.of(name)));
     		} else if (Integer.TYPE.isAssignableFrom(typeClass) || Integer.class.isAssignableFrom(typeClass)) {
     			return Optional.of(GenericArguments.integer(Texts.of(name)));    			
     		}
