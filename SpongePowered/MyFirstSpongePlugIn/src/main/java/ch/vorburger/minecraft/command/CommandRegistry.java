@@ -9,7 +9,7 @@ import org.spongepowered.api.util.command.CommandMapping;
 
 import com.google.inject.Inject;
 
-public class CommandRegistery {
+public class CommandRegistry {
 
 	// private @Inject Logger logger;
 	protected @Inject Game game;

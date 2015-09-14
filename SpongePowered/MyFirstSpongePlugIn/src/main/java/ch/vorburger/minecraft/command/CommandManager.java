@@ -62,7 +62,7 @@ public class CommandManager {
 	protected @Inject Logger logger;
 	protected @Inject Game game;
 	protected @Inject CommandHelper commandHelper;
-	protected @Inject CommandRegistery commandRegistery;
+	protected @Inject CommandRegistry commandRegistery;
 
 	// @see org.spongepowered.common.event.SpongeEventManager.register(PluginContainer, Object)
 	public void register(final PluginContainer plugin, final Object instanceOfClassWithCommandAnnotatedMethods) {
