@@ -3,6 +3,9 @@ package ch.vorburger.minecraft.logo;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.spongepowered.api.entity.living.Agent;
+import org.spongepowered.api.entity.living.Human;
+import org.spongepowered.api.entity.living.animal.Pig;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.plugin.Plugin;
 
@@ -10,11 +13,14 @@ import com.google.common.collect.MapMaker;
 
 import ch.vorburger.minecraft.command.AbstractHotPluginWithCommands;
 import ch.vorburger.minecraft.command.Command;
+import ch.vorburger.minecraft.utils.MinecraftHelperException;
+import ch.vorburger.minecraft.utils.SpawnHelper;
 
 @Plugin(id = "Logo", name = "Logo-like commands (thank you, Seymour Papert)", version = "1.0")
 public class LogoPlugin extends AbstractHotPluginWithCommands {
 
 	Map<Player, Turtle> playerTurtleMap = new MapMaker().makeMap();
+	SpawnHelper spawnHelper = new SpawnHelper();
 	
 	@Command("draw big cube")
 	public void cube(Player player) {
@@ -93,7 +99,13 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 	protected Turtle getTurtle(final Player player) {
 		return playerTurtleMap.computeIfAbsent(player, new Function<Player, Turtle>() {
 			public Turtle apply(Player t) {
-				return new Turtle(player);
+				try {
+					Human turtleEntity = spawnHelper.spawn(Human.class, t);
+					return new EntityConnectedTurtle(turtleEntity);
+				} catch (MinecraftHelperException e) {
+					return new Turtle(player);
+				}
+				
 			}
 		});
 	}

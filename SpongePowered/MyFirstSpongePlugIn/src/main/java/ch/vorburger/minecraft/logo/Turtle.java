@@ -24,8 +24,6 @@ import com.google.common.base.Optional;
  */
 public class Turtle {
 
-	// TODO How to, optionally, "connect" this to a Player??
-	
 	Location location;
 	Direction direction;
 	BlockType blockType;
@@ -111,6 +109,7 @@ public class Turtle {
 		default:
 			throw new IllegalStateException(direction.toString());
 		}
+		onChangeDirection(direction);
 	}
 
 	void turnLeft() {
@@ -130,8 +129,12 @@ public class Turtle {
 		default:
 			throw new IllegalStateException(direction.toString());
 		}
+		onChangeDirection(direction);
 	}
 		
+	protected void onChangeDirection(Direction newDirection) {
+	}
+
 	/** W */
 	void moveForward() {
 		move(direction);
@@ -158,6 +161,10 @@ public class Turtle {
 		// TODO For performance, it would be better if Direction class had a toVector3i 
 		Vector3i newBlockPosition = oldBlockPosition.add(directionToMove.toVector3d().toInt());
 		location = new Location(location.getExtent(), newBlockPosition);
+		onMove(location);
+	}
+
+	protected void onMove(Location newLocation) {
 	}
 
 	private void setBlockIfPenDown() {

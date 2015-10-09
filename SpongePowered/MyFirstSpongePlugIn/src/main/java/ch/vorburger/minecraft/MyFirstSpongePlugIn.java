@@ -2,18 +2,11 @@ package ch.vorburger.minecraft;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.event.GameEvent;
 import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.block.BlockRedstoneUpdateEvent;
 import org.spongepowered.api.event.entity.player.PlayerJoinEvent;
-import org.spongepowered.api.event.state.PreInitializationEvent;
-import org.spongepowered.api.event.state.ServerStartedEvent;
-import org.spongepowered.api.event.state.ServerStartingEvent;
-import org.spongepowered.api.event.state.ServerStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.config.DefaultConfig;
@@ -21,14 +14,12 @@ import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.command.CommandCallable;
 import org.spongepowered.api.util.command.CommandMapping;
-import org.spongepowered.api.util.command.spec.CommandSpec;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
 
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
 import ch.vorburger.hotea.minecraft.api.AbstractHotPlugin;
+import ch.vorburger.minecraft.utils.SpawnHelper;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
@@ -43,6 +34,8 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 	@Inject ConfigurationLoader<CommentedConfigurationNode> configLoader;
 	
 	Optional<CommandMapping> commandMapping = Optional.absent();
+	
+	SpawnHelper spawnHelper = new SpawnHelper();
 	
 /*  https://github.com/SpongePowered/SpongeVanilla/issues/175
  * 
@@ -89,13 +82,7 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 		player.sendMessage(Texts.builder("hello! Welcome...").color(TextColors.GOLD).append(Texts.of(name)).build());
 		// TODO player.sendTitle(title);
 
-		Location location = player.getLocation();
-		World world = player.getWorld();
-		Optional<Entity> optional = world.createEntity(EntityTypes.HUMAN, location.getPosition());
-		if (optional.isPresent()) {
-			Human seymour = (Human) optional.get();
-			world.spawnEntity(seymour);
-		}
+		/* Optional<Human> seymour = */ spawnHelper.spawnLNE(Human.class, player);
 	}
 
 	@Override
