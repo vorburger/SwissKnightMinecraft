@@ -10,6 +10,8 @@ import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.living.animal.Pig;
+import org.spongepowered.api.util.command.source.LocatedSource;
+import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.google.common.base.Optional;
@@ -40,9 +42,16 @@ public class SpawnHelper {
 	}
 
 	public <T extends Entity> T spawn(Class<T> entityClass, Entity startingLocation) throws MinecraftHelperException {
-		World world = startingLocation.getWorld();
+		return spawn(entityClass, startingLocation.getWorld(), startingLocation.getLocation());
+	}
+
+	public <T extends Entity> T spawn(Class<T> entityClass, LocatedSource locatedSource) throws MinecraftHelperException {
+		return spawn(entityClass, locatedSource.getWorld(), locatedSource.getLocation());
+	}
+
+	protected <T extends Entity> T spawn(Class<T> entityClass, World world, Location location) throws MinecraftHelperException {
 		EntityType entityType = getEntityType(entityClass);
-		Optional<Entity> optionalEntity = world.createEntity(entityType, startingLocation.getLocation().getPosition());
+		Optional<Entity> optionalEntity = world.createEntity(entityType, location.getPosition());
 		if (optionalEntity.isPresent()) {
 			@SuppressWarnings("unchecked") T newEntity = (T) optionalEntity.get();
 			boolean isSpawned = world.spawnEntity(newEntity);
@@ -79,5 +88,5 @@ public class SpawnHelper {
 		}
 		return entityClassToTypeMap;
 	}
-	
+
 }

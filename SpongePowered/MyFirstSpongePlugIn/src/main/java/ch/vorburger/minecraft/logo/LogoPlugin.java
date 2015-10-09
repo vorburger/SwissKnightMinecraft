@@ -3,11 +3,9 @@ package ch.vorburger.minecraft.logo;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.spongepowered.api.entity.living.Agent;
 import org.spongepowered.api.entity.living.Human;
-import org.spongepowered.api.entity.living.animal.Pig;
-import org.spongepowered.api.entity.player.Player;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.util.command.source.LocatedSource;
 
 import com.google.common.collect.MapMaker;
 
@@ -19,11 +17,11 @@ import ch.vorburger.minecraft.utils.SpawnHelper;
 @Plugin(id = "Logo", name = "Logo-like commands (thank you, Seymour Papert)", version = "1.0")
 public class LogoPlugin extends AbstractHotPluginWithCommands {
 
-	Map<Player, Turtle> playerTurtleMap = new MapMaker().makeMap();
+	Map<LocatedSource, Turtle> playerTurtleMap = new MapMaker().makeMap();
 	SpawnHelper spawnHelper = new SpawnHelper();
 	
 	@Command("draw big cube")
-	public void cube(Player player) {
+	public void cube(LocatedSource player) {
 		Turtle turtle = new Turtle(player);
 		for (int h = 0; h < 3; h++) {
 			for (int i = 0; i < 4; i++) {
@@ -42,47 +40,47 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 	
 
 	@Command("Move Turtle forward, and draw if pen down")
-	public void fd(Player player) {
+	public void fd(LocatedSource player) {
 		getTurtle(player).moveForward();
 	}
 
 	@Command("Move Turtle backward, and draw if pen down")
-	public void bk(Player player) {
+	public void bk(LocatedSource player) {
 		getTurtle(player).moveBack();
 	}
 
 	@Command("Move Turtle upward, and draw if pen down")
-	public void up(Player player) {
+	public void up(LocatedSource player) {
 		getTurtle(player).moveUp();
 	}
 
 	@Command("Move Turtle downward, and draw if pen down")
-	public void dn(Player player) {
+	public void dn(LocatedSource player) {
 		getTurtle(player).moveDown();
 	}
 
 	@Command("Turn Turtle right (no drawing)")
-	public void rt(Player player) {
+	public void rt(LocatedSource player) {
 		getTurtle(player).turnRight();
 	}
 
 	@Command("Turn Turtle left (no drawing)")
-	public void lt(Player player) {
+	public void lt(LocatedSource player) {
 		getTurtle(player).turnLeft();
 	}
 
 	@Command("Raise Turtle's Pen up")
-	public void pu(Player player) {
+	public void pu(LocatedSource player) {
 		getTurtle(player).noSetBlockOnMove();
 	}
 
 	@Command("Put Turtle's Pen down")
-	public void pd(Player player) {
+	public void pd(LocatedSource player) {
 		getTurtle(player).setBlockOnMove();
 	}
 
 	@Command("Make Turtle remove block")
-	public void rm(Player player) {
+	public void rm(LocatedSource player) {
 		getTurtle(player).remove();
 	}
 
@@ -92,13 +90,13 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 //	}
 
 	@Command("Make Turtle dig")
-	public void dig(Player player) {
+	public void dig(LocatedSource player) {
 		getTurtle(player).dig();
 	}
 	
-	protected Turtle getTurtle(final Player player) {
-		return playerTurtleMap.computeIfAbsent(player, new Function<Player, Turtle>() {
-			public Turtle apply(Player t) {
+	protected Turtle getTurtle(LocatedSource player) {
+		return playerTurtleMap.computeIfAbsent(player, new Function<LocatedSource, Turtle>() {
+			public Turtle apply(LocatedSource t) {
 				try {
 					Human turtleEntity = spawnHelper.spawn(Human.class, t);
 					return new EntityConnectedTurtle(turtleEntity);

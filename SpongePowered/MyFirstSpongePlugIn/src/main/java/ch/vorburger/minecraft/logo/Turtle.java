@@ -8,6 +8,7 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
+import org.spongepowered.api.util.command.source.LocatedSource;
 import org.spongepowered.api.world.Location;
 
 import com.flowpowered.math.vector.Vector3d;
@@ -36,6 +37,20 @@ public class Turtle {
 	}
 	
 	public Turtle(Entity player) {
+		init(player);
+	}
+
+	public Turtle(LocatedSource locatedSource) {
+		if (locatedSource instanceof Entity)
+			init((Entity) locatedSource);
+		else {
+			this.location = locatedSource.getLocation();
+			this.direction = Direction.SOUTH;
+			this.blockType = BlockTypes.STONE;
+		}
+	}
+
+	private void init(Entity player) {
 		this.location = getStartingLocation(player);
 		this.direction = getDirection(player.getRotation());
 		// TODO how to obtain Player's current Block? (+ Separate constructors for Entity & Player.)
