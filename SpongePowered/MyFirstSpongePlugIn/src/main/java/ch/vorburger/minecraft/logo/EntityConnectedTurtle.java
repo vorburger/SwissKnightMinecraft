@@ -12,7 +12,7 @@ import org.spongepowered.api.world.Location;
  * and is thus not very suitable as a Turtle. A Human is a bit better, but also
  * not perfectly ideal because it obviously obeys gravity and thus falls (TODO
  * How-To make it Fly??). Also when the Turtle is within existing blocks
- * rendering can be weired.
+ * rendering can be weird.
  *
  * @author Michael Vorburger
  */
@@ -36,6 +36,10 @@ public class EntityConnectedTurtle extends Turtle {
 	
 	@Override
 	protected void onChangeDirection(Direction newDirection) {
+		// TODO Why does companion not turn correctly on e.g. /lt ??
+		//System.out.print(companion.getRotation());
 		companion.setRotation(newDirection.toVector3d());
+		//System.out.print(newDirection.toVector3d());
+		//System.out.println(companion.getRotation());
 	}
 }

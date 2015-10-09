@@ -99,6 +99,11 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 			public Turtle apply(LocatedSource t) {
 				try {
 					Human turtleEntity = spawnHelper.spawn(Human.class, t);
+					
+					// TODO https://docs.spongepowered.org/en-GB/plugin/data/index.html
+					// TODO Move this to a new DataHelper utility class? And an additional EntityHelper with simply fly(Entity) method?
+					// ??? turtleEntity.getData(FlyingData.class).get().set(true);
+					
 					return new EntityConnectedTurtle(turtleEntity);
 				} catch (MinecraftHelperException e) {
 					return new Turtle(player);
