@@ -31,10 +31,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Texts;
 import org.spongepowered.api.util.command.CommandMapping;
@@ -43,7 +44,6 @@ import org.spongepowered.api.util.command.args.CommandContext;
 import org.spongepowered.api.util.command.args.CommandElement;
 import org.spongepowered.api.util.command.args.GenericArguments;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 
@@ -176,7 +176,7 @@ public class CommandManager {
     			return Optional.of(GenericArguments.integer(Texts.of(name)));    			
     		}
     	}
-		return Optional.absent();
+		return Optional.empty();
 	}
 
 	protected boolean isValidHandler(final Method method) {

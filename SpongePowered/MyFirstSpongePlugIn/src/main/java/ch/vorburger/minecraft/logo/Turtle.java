@@ -1,6 +1,7 @@
 package ch.vorburger.minecraft.logo;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
@@ -10,10 +11,10 @@ import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.util.command.source.LocatedSource;
 import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
-import com.google.common.base.Optional;
 
 /**
  * Turtle.
@@ -62,9 +63,9 @@ public class Turtle {
 		// TODO How to get the Location from where the Player is looking at?
 		// https://bukkit.org/threads/tutorial-how-to-calculate-vectors.138849/ ?
 
-		Optional<BlockRayHit> block = Optional.absent();
+		Optional<BlockRayHit<World>> block = Optional.empty();
 		try {
-			block = BlockRay.from(entity).filter(BlockRay.ONLY_AIR_FILTER, BlockRay.maxDistanceFilter(entity.getLocation().getPosition(), 100)).end();
+			block = BlockRay.from(entity).filter(BlockRay.onlyAirFilter(), BlockRay.maxDistanceFilter(entity.getLocation().getPosition(), 100)).end();
 		} catch (NoSuchElementException e) {
 			// Caused by: java.util.NoSuchElementException: Filter limit reached
 		}
@@ -202,8 +203,8 @@ public class Turtle {
 //		location.interactBlock();
 //	}
 	
-	void dig() {
-		location.digBlock();
-	}
+//	void dig() {
+//		location.digBlock();
+//	}
 
 }

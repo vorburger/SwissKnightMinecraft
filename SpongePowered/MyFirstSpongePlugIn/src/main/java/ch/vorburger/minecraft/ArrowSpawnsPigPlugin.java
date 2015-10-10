@@ -1,17 +1,20 @@
 package ch.vorburger.minecraft;
 
-import org.spongepowered.api.data.manipulator.entity.PassengerData;
+import java.util.Optional;
+
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.manipulator.mutable.entity.PassengerData;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.animal.Pig;
 import org.spongepowered.api.entity.projectile.Arrow;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.entity.EntitySpawnEvent;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.entity.SpawnEntityEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import com.google.common.base.Optional;
+import com.google.common.eventbus.Subscribe;
 
 @Plugin(id = "ArrowSpawnsPig", name = "Arrow spawns Pig", version = "1.0.0-SNAPSHOT")
 public class ArrowSpawnsPigPlugin {
@@ -20,8 +23,8 @@ public class ArrowSpawnsPigPlugin {
 	// private Pig arrowsPig;
 
 	@Subscribe
-	public void onEntitySpawn(EntitySpawnEvent event) {
-		Entity spawnedEntity = event.getEntity();
+	public void onEntitySpawn(SpawnEntityEvent event) {
+		Entity spawnedEntity = event.getTargetEntity();
 		// TODO Xtend case switch
 		if (spawnedEntity instanceof Arrow) {
 			Arrow arrow = (Arrow) spawnedEntity;
@@ -30,7 +33,7 @@ public class ArrowSpawnsPigPlugin {
 			Optional<Entity> optional = world.createEntity(EntityTypes.PIG, location.getPosition());
 			if (optional.isPresent()) {
 				Pig pig = (Pig) optional.get();
-				world.spawnEntity(pig);
+				world.spawnEntity(pig, Cause.empty());
 				// arrowsPig = pig;
 				// TODO Xtend: pig.setVehicle(arrow)
 				setVehicle(pig, arrow);
@@ -43,7 +46,7 @@ public class ArrowSpawnsPigPlugin {
 		Optional<PassengerData> passengerData = rider.getOrCreate(PassengerData.class);
 		if (!passengerData.isPresent())
 			throw new IllegalArgumentException("Cannot be a passenger: " + rider.toString());
-		passengerData.get().setVehicle(ridden);		
+		passengerData.get().set(Keys.PASSENGER, ridden);
 	}
 	
 /*	This, as well as using EntityMoveEvent and other EntityDisplaceEvent subclasses, only ever gives PlayerMoveEvent, but never moving arrows or pigs. Why? (How to build custom AI for guys following around?)

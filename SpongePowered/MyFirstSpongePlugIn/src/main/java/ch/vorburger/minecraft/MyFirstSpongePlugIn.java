@@ -1,12 +1,13 @@
 package ch.vorburger.minecraft;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.entity.living.Human;
-import org.spongepowered.api.entity.player.Player;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.GameEvent;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.entity.player.PlayerJoinEvent;
+import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.config.DefaultConfig;
@@ -15,7 +16,7 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.command.CommandCallable;
 import org.spongepowered.api.util.command.CommandMapping;
 
-import com.google.common.base.Optional;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 
 import ch.vorburger.hotea.minecraft.api.AbstractHotPlugin;
@@ -33,7 +34,7 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 	@DefaultConfig(sharedRoot = true)
 	@Inject ConfigurationLoader<CommentedConfigurationNode> configLoader;
 	
-	Optional<CommandMapping> commandMapping = Optional.absent();
+	Optional<CommandMapping> commandMapping = Optional.empty();
 	
 	SpawnHelper spawnHelper = new SpawnHelper();
 	
@@ -74,8 +75,8 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 	}
 
 	@Subscribe
-	public void onPlayerJoin(PlayerJoinEvent event) {
-		Player player = event.getUser();
+	public void onPlayerJoin(ClientConnectionEvent.Join event) {
+		Player player = event.getTargetEntity();
 		String name = player.getName();
 		logger.info("onPlayerJoin: {} ", name);
 

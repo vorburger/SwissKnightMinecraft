@@ -2,6 +2,7 @@ package ch.vorburger.minecraft.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +11,10 @@ import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.living.animal.Pig;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.util.command.source.LocatedSource;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-
-import com.google.common.base.Optional;
 
 /**
  * Helper to simplify spawning entities.
@@ -37,7 +37,7 @@ public class SpawnHelper {
 			return Optional.of(spawn(entityClass, startingLocation));
 		} catch (MinecraftHelperException e) {
 			logger.error(e.getMessage(), e);
-			return Optional.absent();
+			return Optional.empty();
 		}
 	}
 
@@ -54,7 +54,8 @@ public class SpawnHelper {
 		Optional<Entity> optionalEntity = world.createEntity(entityType, location.getPosition());
 		if (optionalEntity.isPresent()) {
 			@SuppressWarnings("unchecked") T newEntity = (T) optionalEntity.get();
-			boolean isSpawned = world.spawnEntity(newEntity);
+			Cause cause = Cause.empty(); // ok?
+			boolean isSpawned = world.spawnEntity(newEntity, cause);
 			if (!isSpawned)
 				throw new MinecraftHelperException("Could not spawn new Entity: " + entityType.getName());
 			return newEntity;
@@ -77,7 +78,7 @@ public class SpawnHelper {
 	}
 
 	protected <T extends Entity> Optional<EntityType> getEntityTypeOptional(Class<T> entityClass) {
-		return Optional.fromNullable(getEntityClassToTypeMap().get(entityClass));
+		return Optional.ofNullable(getEntityClassToTypeMap().get(entityClass));
 	}
 
 	protected <T extends Entity> Map<Class<? extends Entity>, EntityType> getEntityClassToTypeMap() {

@@ -89,10 +89,10 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 //		getTurtle(player).interact();
 //	}
 
-	@Command("Make Turtle dig")
-	public void dig(LocatedSource player) {
-		getTurtle(player).dig();
-	}
+//	@Command("Make Turtle dig")
+//	public void dig(LocatedSource player) {
+//		getTurtle(player).dig();
+//	}
 	
 	protected Turtle getTurtle(LocatedSource player) {
 		return playerTurtleMap.computeIfAbsent(player, new Function<LocatedSource, Turtle>() {

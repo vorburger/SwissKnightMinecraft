@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
@@ -11,7 +12,6 @@ import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.util.command.CommandMapping;
 import org.spongepowered.api.util.command.spec.CommandSpec;
 
-import com.google.common.base.Optional;
 import com.google.inject.Inject;
 
 public class CommandRegistry {

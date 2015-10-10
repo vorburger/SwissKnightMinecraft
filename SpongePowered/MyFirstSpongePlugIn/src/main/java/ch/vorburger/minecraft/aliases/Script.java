@@ -10,7 +10,6 @@ import org.spongepowered.api.util.command.CommandSource;
 import org.spongepowered.api.util.command.args.CommandContext;
 import org.spongepowered.api.util.command.spec.CommandExecutor;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 
 public class Script {
@@ -21,6 +20,8 @@ public class Script {
 	public Script(/*String name, */String commands) {
 		// this.name = name;
 		this.commands = parse(commands);
+		if (this.commands.isEmpty())
+			throw new IllegalArgumentException("commands empty");
 	}
 
 //	public String getName() {
@@ -49,14 +50,11 @@ public class Script {
 	public CommandExecutor asCommandExecutor(final CommandService commandService) {
 		return new CommandExecutor() {
 			public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-				Optional<CommandResult> lastResult = Optional.absent();
+				CommandResult lastResult = null;
 				for (String command : commands) {
 					lastResult = commandService.process(src, command);
 				}
-				if (lastResult.isPresent())
-					return lastResult.get();
-				else
-					return CommandResult.empty();
+				return lastResult;
 			}
 		};
 	}

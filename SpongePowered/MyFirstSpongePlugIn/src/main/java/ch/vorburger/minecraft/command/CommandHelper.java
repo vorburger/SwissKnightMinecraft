@@ -2,6 +2,7 @@ package ch.vorburger.minecraft.command;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
@@ -14,7 +15,6 @@ import org.spongepowered.api.util.command.spec.CommandExecutor;
 import org.spongepowered.api.util.command.spec.CommandSpec;
 import org.spongepowered.api.util.command.spec.CommandSpec.Builder;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 

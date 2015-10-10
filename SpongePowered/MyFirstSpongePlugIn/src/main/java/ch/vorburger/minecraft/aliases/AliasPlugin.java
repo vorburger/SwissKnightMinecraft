@@ -1,6 +1,7 @@
 package ch.vorburger.minecraft.aliases;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Map;
 
 import org.spongepowered.api.Game;
@@ -15,7 +16,6 @@ import org.spongepowered.api.util.command.args.GenericArguments;
 import org.spongepowered.api.util.command.spec.CommandSpec;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.collect.MapMaker;
 import com.google.inject.Inject;
 
