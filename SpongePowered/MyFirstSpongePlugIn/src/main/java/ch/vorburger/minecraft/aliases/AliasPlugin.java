@@ -24,6 +24,11 @@ import ch.vorburger.minecraft.command.CommandExecutorAdapter;
 import ch.vorburger.minecraft.command.CommandHelper;
 import ch.vorburger.minecraft.command.CommandRegistry;
 
+/**
+ * Aliases. For example:
+ *    /x 4 fd
+ * @author Michael Vorburger
+ */
 @Plugin(id = "VAliases", name = "Aliasing commands", version = "1.0")
 public class AliasPlugin extends AbstractHotPlugin {
 
@@ -100,5 +105,17 @@ public class AliasPlugin extends AbstractHotPlugin {
 					Collection<String> commandsToRepeat = args.<String>getAll("commandToRepeat");
 					this.x(src, n, commandsToRepeat.toArray(new String[0]));
 				})).build(), "x");
+		
+		commandRegistry.register(CommandSpec.builder().description(Texts.of("list all / register new / delete Alias command")).arguments(
+				// GenericArguments.playerOrSource(Texts.of("player"), game)
+				GenericArguments.optional(GenericArguments.string(Texts.of("cmd")),
+				GenericArguments.optional(GenericArguments.remainingJoinedStrings(Texts.of("commandsToAlias"))))
+			).executor(CommandExecutorAdapter.adapt((src, args) -> {
+				// Player player = (Player) src; // TODO if instanceof
+				Optional<String> name = args.<String>getOne("cmd");
+				Optional<String> commandsToAlias = args.<String>getOne("commandsToAlias");
+				this.alias(src, name, commandsToAlias);
+			})).build(), "alias");
+
 	}
 }
