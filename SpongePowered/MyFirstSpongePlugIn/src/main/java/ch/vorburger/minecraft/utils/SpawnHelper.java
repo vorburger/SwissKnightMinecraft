@@ -12,9 +12,9 @@ import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.living.animal.Pig;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.util.command.source.LocatedSource;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
+import org.spongepowered.api.world.extent.EntityUniverse;
 
 /**
  * Helper to simplify spawning entities.
@@ -32,7 +32,7 @@ public class SpawnHelper {
 	}
 
 	// LNE = Log, but Never Exception. Returns Optional instead. 
-	public <T extends Entity> Optional<T> spawnLNE(Class<T> entityClass, Entity startingLocation) {
+	public <T extends Entity> Optional<T> spawnLNE(Class<T> entityClass, Location<World> startingLocation) {
 		try {
 			return Optional.of(spawn(entityClass, startingLocation));
 		} catch (MinecraftHelperException e) {
@@ -41,21 +41,14 @@ public class SpawnHelper {
 		}
 	}
 
-	public <T extends Entity> T spawn(Class<T> entityClass, Entity startingLocation) throws MinecraftHelperException {
-		return spawn(entityClass, startingLocation.getWorld(), startingLocation.getLocation());
-	}
-
-	public <T extends Entity> T spawn(Class<T> entityClass, LocatedSource locatedSource) throws MinecraftHelperException {
-		return spawn(entityClass, locatedSource.getWorld(), locatedSource.getLocation());
-	}
-
-	protected <T extends Entity> T spawn(Class<T> entityClass, World world, Location location) throws MinecraftHelperException {
+	public <T extends Entity> T spawn(Class<T> entityClass, Location<World> location) throws MinecraftHelperException {
 		EntityType entityType = getEntityType(entityClass);
-		Optional<Entity> optionalEntity = world.createEntity(entityType, location.getPosition());
+		EntityUniverse entityUniverse = location.getExtent();
+		Optional<Entity> optionalEntity = entityUniverse.createEntity(entityType, location.getPosition());
 		if (optionalEntity.isPresent()) {
 			@SuppressWarnings("unchecked") T newEntity = (T) optionalEntity.get();
 			Cause cause = Cause.empty(); // ok?
-			boolean isSpawned = world.spawnEntity(newEntity, cause);
+			boolean isSpawned = entityUniverse.spawnEntity(newEntity, cause);
 			if (!isSpawned)
 				throw new MinecraftHelperException("Could not spawn new Entity: " + entityType.getName());
 			return newEntity;

@@ -98,7 +98,7 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 		return playerTurtleMap.computeIfAbsent(player, new Function<LocatedSource, Turtle>() {
 			public Turtle apply(LocatedSource t) {
 				try {
-					Human turtleEntity = spawnHelper.spawn(Human.class, t);
+					Human turtleEntity = spawnHelper.spawn(Human.class, t.getLocation());
 					
 					// TODO https://docs.spongepowered.org/en-GB/plugin/data/index.html
 					// TODO Move this to a new DataHelper utility class? And an additional EntityHelper with simply fly(Entity) method?

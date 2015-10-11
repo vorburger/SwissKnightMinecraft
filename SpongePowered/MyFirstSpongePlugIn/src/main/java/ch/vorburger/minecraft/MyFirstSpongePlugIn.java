@@ -83,7 +83,7 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 		player.sendMessage(Texts.builder("hello! Welcome...").color(TextColors.GOLD).append(Texts.of(name)).build());
 		// TODO player.sendTitle(title);
 
-		/* Optional<Human> seymour = */ spawnHelper.spawnLNE(Human.class, player);
+		/* Optional<Human> seymour = */ spawnHelper.spawnLNE(Human.class, player.getLocation());
 	}
 
 	@Override
