@@ -33,12 +33,12 @@ public class Script {
 	}
 
 	private List<String> parse(String commands) {
-		if (commands.contains(";"))
-			return split(commands, ';');
-		else if (commands.contains("/"))
+//		if (commands.contains(";"))
+//			return split(commands, ';');
+		/*else */if (commands.contains("/"))
 			return split(commands, '/');
-		else if (commands.contains(","))
-			return split(commands, ',');
+//		else if (commands.contains(","))
+//			return split(commands, ',');
 		else
 			return Collections.singletonList(commands);
 	}
