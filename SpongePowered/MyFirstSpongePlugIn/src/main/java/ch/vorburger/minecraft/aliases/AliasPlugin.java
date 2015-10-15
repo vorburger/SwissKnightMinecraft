@@ -77,7 +77,9 @@ public class AliasPlugin extends AbstractHotPlugin {
 
 	//// @Command("list all available Aliases commands")
 	public void alias(CommandSource commandSource) {
-		commandSource.sendMessage(Texts.of(aliases.keySet().toString()));
+		// TODO Format more nicely!
+		if (!aliases.keySet().isEmpty())
+			commandSource.sendMessage(Texts.of(aliases.keySet().toString()));
 	}
 
 	//// @Command("delete an Alias command")
@@ -108,8 +110,8 @@ public class AliasPlugin extends AbstractHotPlugin {
 
 		commandRegistry.register(CommandSpec.builder().description(Texts.of("list all / register new / delete Alias command")).arguments(
 				// GenericArguments.playerOrSource(Texts.of("player"), game)
-				GenericArguments.optional(GenericArguments.string(Texts.of("cmd")),
-						GenericArguments.optional(GenericArguments.remainingJoinedStrings(Texts.of("commandsToAlias"))))
+				GenericArguments.optional(GenericArguments.string(Texts.of("cmd"))),
+				GenericArguments.optional(GenericArguments.remainingJoinedStrings(Texts.of("commandsToAlias")))
 				).executor(CommandExecutorAdapter.adapt((src, args) -> {
 					// Player player = (Player) src; // TODO if instanceof
 					Optional<String> name = args.<String>getOne("cmd");

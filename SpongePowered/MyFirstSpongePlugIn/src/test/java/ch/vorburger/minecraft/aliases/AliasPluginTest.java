@@ -1,5 +1,7 @@
 package ch.vorburger.minecraft.aliases;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.spongepowered.api.Game;
@@ -19,7 +21,7 @@ public class AliasPluginTest {
 
 	@Test public void testAliasCommandNoArguments() throws Throwable {
 		CommandTestHelper h = new CommandTestHelper(game);
-		h.process("alias");
+		assertEquals(0, h.process("alias").getChat().getMessages().size());
 	}
 
 }
