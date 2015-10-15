@@ -3,8 +3,6 @@
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ch.vorburger.hotea.minecraft.api"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/MyFirstSpongePlugIn"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SpongeVanilla"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SpongeAPI"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SpongeCommon"/>

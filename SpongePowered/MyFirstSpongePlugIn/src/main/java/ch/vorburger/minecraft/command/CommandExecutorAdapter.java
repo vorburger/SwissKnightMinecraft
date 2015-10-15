@@ -15,7 +15,7 @@ public class CommandExecutorAdapter implements CommandExecutor {
 	public static CommandExecutor adapt(CommandExecutorWithoutResultThrowsThrowable executor) {
 		return new CommandExecutorAdapter(executor);
 	}
-	
+
 	private CommandExecutorAdapter(CommandExecutorWithoutResultThrowsThrowable commandExecutorWithoutResultThrowsThrowable) {
 		super();
 		this.commandExecutorWithoutResultThrowsThrowable = commandExecutorWithoutResultThrowsThrowable;
@@ -28,8 +28,7 @@ public class CommandExecutorAdapter implements CommandExecutor {
 			return CommandResult.success();
 		} catch (Throwable e) {
 			final String msg = "Commmand failed: " + e.getMessage(); // "/" + commandNameAndAliases + " failed: " + e.getMessage();
-			// logger.error(msg, e);
-			throw new InvocationCommandException(Texts.builder(msg).build(), e);
+			throw new InvocationCommandException(Texts.of(msg), e);
 		}
 	}
 
