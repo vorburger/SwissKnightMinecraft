@@ -21,7 +21,7 @@ public class AliasPluginTest {
 
 	@Test public void testAliasCommandNoArguments() throws Throwable {
 		CommandTestHelper h = new CommandTestHelper(game);
-		assertEquals(0, h.process("alias").getChat().getMessages().size());
+		assertEquals(0, h.process("def").getChat().getMessages().size());
 	}
 
 }

@@ -117,7 +117,7 @@ public class AliasPlugin extends AbstractHotPlugin {
 					Optional<String> name = args.<String>getOne("cmd");
 					Optional<String> commandsToAlias = args.<String>getOne("commandsToAlias");
 					this.alias(src, name, commandsToAlias);
-				})).build(), "alias");
+				})).build(), "def", "alias");
 
 	}
 }
