@@ -68,11 +68,12 @@ public class CommandTestHelper {
 	}
 
 	public CommandResultWithChat process(CommandSource source, String command) {
-		//		clearChat();
 		ChatKeepingCommandSource wrappedSource = wrap(source);
 		CommandService commandService = game.getCommandDispatcher();
 		CommandResult result = commandService.process(wrappedSource, command);
+		// TODO Ideally make this more robust.. would require changes to core Sponge
 		assertDoesNotContainIgnoreCase(wrappedSource, "commands.generic.notFound"); // "Unknown command"
+		assertDoesNotContainIgnoreCase(wrappedSource, "Error occurred while executing command"); // as in SimpleCommandService
 		return new CommandResultWithChat(result, wrappedSource);
 	}
 
@@ -85,14 +86,16 @@ public class CommandTestHelper {
 				sb.append(((Literal)childText).getContent());
 			} else if (childText instanceof Translatable) {
 				Translation translation = ((Translatable)childText).getTranslation();
-				// We're also adding Translation here Id because due to a
+				// We're opt. also adding Translation here Id because due to a
 				// strange problem get() doesn't always seem to work (weird
 				// MissingResourceException when called from here; but works
 				// normally elsewhere - more ClassLoader
 				// shit??)
-				sb.append('%');
-				sb.append(translation.getId());
-				sb.append(':');
+				if (!translation.getId().equals(translation.get(Locale.US))) {
+					sb.append('%');
+					sb.append(translation.getId());
+					sb.append(": ");
+				}
 				sb.append(translation.get(Locale.US));
 			} else {
 				// TODO Other sub classes of Text...
@@ -139,15 +142,6 @@ public class CommandTestHelper {
 		if (successCount < 1)
 			throw new AssertionError("CommandResult had successCount != 1: " + successCount);
 	}
-
-	//	public String getChat() {
-	//		// TODO Auto-generated method stub
-	//		return null;
-	//	}
-	//
-	//	public void clearChat() {
-	//		// TODO Auto-generated method stub
-	//	}
 
 	public /*static*/ class CommandResultWithChat {
 		private final CommandResult result;

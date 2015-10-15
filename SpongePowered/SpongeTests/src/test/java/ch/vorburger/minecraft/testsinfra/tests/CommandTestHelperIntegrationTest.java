@@ -24,6 +24,9 @@
  */
 package ch.vorburger.minecraft.testsinfra.tests;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.spongepowered.api.Game;
@@ -54,4 +57,17 @@ public class CommandTestHelperIntegrationTest {
 		CommandResultWithChat result = h.process("help say");
 		h.assertContainsIgnoreCase(result.getChat(), "/say <message ...>");
 	}
+
+	@Test public void testPluginBadCommand() {
+		CommandTestHelper h = new CommandTestHelper(game);
+		try {
+			h.process(TestPlugin.TEST_BAD_COMMAND);
+			fail("This should have failed :(");
+		} catch (AssertionError e) {
+			assertTrue(e.getMessage(), e.getMessage().equals("Error occurred while executing command: %s"));
+			// TODO how-to? assertTrue(e.getMessage(), e.getMessage().equals("bad boy command failure"));
+			// TODO how-to? getCause(), IllegalStateException, getMessage() = "root cause IllegalStateException"
+		}
+	}
+
 }

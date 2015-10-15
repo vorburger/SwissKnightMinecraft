@@ -44,13 +44,13 @@ public class TestsRunnerPlugin {
 	static Game game;
 
 	@Listener
-	public final void onServerStarting(GameStartedServerEvent event) {
+	public final void onServerStarted(GameStartedServerEvent event) {
 		isServerStarted = true;
 		game = event.getGame();
 	}
 
 	@Listener
-	public final void onServerStarting(GameStoppedServerEvent event) {
+	public final void onServerStopped(GameStoppedServerEvent event) {
 		isServerStarted = false;
 	}
 
