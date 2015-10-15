@@ -77,7 +77,7 @@ public class CommandTestHelper {
 		return new CommandResultWithChat(result, wrappedSource);
 	}
 
-	protected String toString(Text text) {
+	public String toString(Text text) {
 		StringBuilder sb = new StringBuilder();
 		for (Text childText : text.withChildren()) {
 			if (sb.length() > 0)
