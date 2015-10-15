@@ -23,7 +23,7 @@ public class CommandTestHelperTest {
 
 	@Test public void translatedTextToString() {
 		Text text = Texts.builder(new FixedTranslation("something")).build();
-		assertEquals("something", new CommandTestHelper(null).toString(text));
+		assertEquals("%something:something", new CommandTestHelper(null).toString(text));
 	}
 
 	@Test public void chatToString() {

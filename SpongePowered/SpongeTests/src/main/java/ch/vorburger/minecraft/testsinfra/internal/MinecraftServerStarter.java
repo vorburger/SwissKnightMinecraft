@@ -26,6 +26,14 @@ public class MinecraftServerStarter {
 	// Alternative: https://github.com/jhalterman/concurrentunit
 	private PollingWait waiter = new PollingWait().timeoutAfter(60, TimeUnit.SECONDS).pollEvery(200, TimeUnit.MILLISECONDS);
 
+	private static MinecraftServerStarter INSTANCE = new MinecraftServerStarter();
+
+	public static MinecraftServerStarter INSTANCE() {
+		return INSTANCE;
+	}
+
+	private MinecraftServerStarter() { }
+
 	/**
 	 * Starts Minecraft Server.
 	 *
@@ -89,7 +97,11 @@ public class MinecraftServerStarter {
 	}
 
 	private void checkIfStarted() throws IllegalStateException {
-		if (game == null)
+		if (!isRunning())
 			throw new IllegalStateException("Minecraft Server has not yet started (or already shut down)");
+	}
+
+	public boolean isRunning() {
+		return game != null;
 	}
 }

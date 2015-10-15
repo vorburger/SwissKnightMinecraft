@@ -37,7 +37,7 @@ import ch.vorburger.minecraft.testsinfra.internal.MinecraftServerStarter;
  */
 public class MinecraftRunner extends BlockJUnit4ClassRunner {
 
-	private static MinecraftServerStarter starter;
+	private static MinecraftServerStarter starter = MinecraftServerStarter.INSTANCE();
 
 	public MinecraftRunner(Class<?> testClass) throws InitializationError {
 		super(trick(testClass));
@@ -46,8 +46,10 @@ public class MinecraftRunner extends BlockJUnit4ClassRunner {
 	// This is done like this just so that we can run stuff before invoking the parent constructor
 	private static Class<?> trick(Class<?> testClass) throws InitializationError {
 		try {
-			getStarter().startServer();
-			getStarter().waitForServerStartupCompletion();
+			if (!starter.isRunning()) {
+				starter.startServer();
+				starter.waitForServerStartupCompletion();
+			}
 		} catch (Throwable e) {
 			throw new InitializationError(e);
 		}
@@ -57,7 +59,7 @@ public class MinecraftRunner extends BlockJUnit4ClassRunner {
 	@Override
 	protected TestClass createTestClass(Class<?> testClass) {
 		try {
-			ClassLoader classLoader = getStarter().getMinecraftServerClassLoader();
+			ClassLoader classLoader = starter.getMinecraftServerClassLoader();
 			Class<?> testClassFromMinecraftClassLoader = classLoader.loadClass(testClass.getName());
 			return super.createTestClass(testClassFromMinecraftClassLoader);
 		} catch (ClassNotFoundException e) {
@@ -75,9 +77,4 @@ public class MinecraftRunner extends BlockJUnit4ClassRunner {
 		return object;
 	}
 
-	protected static MinecraftServerStarter getStarter() {
-		if (starter == null)
-			starter = new MinecraftServerStarter();
-		return starter;
-	}
 }
