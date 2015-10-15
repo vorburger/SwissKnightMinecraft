@@ -28,6 +28,8 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.TestClass;
 
+import ch.vorburger.minecraft.testsinfra.internal.MinecraftServerStarter;
+
 /**
  * JUnit Runner which runs tests inside the ClassLoader of the Minecraft Server.
  *

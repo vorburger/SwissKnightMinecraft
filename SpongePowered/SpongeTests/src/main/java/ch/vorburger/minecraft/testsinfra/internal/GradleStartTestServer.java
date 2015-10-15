@@ -1,4 +1,4 @@
-package ch.vorburger.minecraft.testsinfra;
+package ch.vorburger.minecraft.testsinfra.internal;
 
 import java.util.List;
 import java.util.Map;

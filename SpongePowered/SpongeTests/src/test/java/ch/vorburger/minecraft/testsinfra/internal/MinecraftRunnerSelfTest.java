@@ -22,42 +22,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package ch.vorburger.minecraft.testsinfra;
+package ch.vorburger.minecraft.testsinfra.internal;
 
-import org.slf4j.Logger;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.game.state.GameStartedServerEvent;
-import org.spongepowered.api.event.game.state.GameStoppedServerEvent;
-import org.spongepowered.api.plugin.Plugin;
 
-import com.google.inject.Inject;
+import ch.vorburger.minecraft.testsinfra.MinecraftRunner;
 
 /**
- * Minecraft Sponge powered Integration Tests Runner Plugin.
- *
- * @author Michael Vorburger
+ * Integration Test for MinecraftRunner.
  */
-@Plugin(id = "TestsRunner", name = "Integration Tests Runner", version = "1.0")
-public class TestsRunnerPlugin {
+@RunWith(MinecraftRunner.class)
+public class MinecraftRunnerSelfTest {
 
-	// These two private static fields are read by (TODO reference final helper class/method name)
-	@SuppressWarnings("unused") private static boolean isServerStarted;
-	@SuppressWarnings("unused") private static Game _game;
+	// TODO @Inject
+	public Game game;
 
-	protected @Inject Logger logger;
-	protected @Inject Game game;
-
-	@Listener
-	public final void onServerStarting(GameStartedServerEvent event) {
-		isServerStarted = true;
-		_game = game;
-		// logger.info("onServerStarting(GameStartedServerEvent): isServerStarted = true [{}]", TestsRunnerPlugin.class.getClassLoader());
-	}
-
-	@Listener
-	public final void onServerStarting(GameStoppedServerEvent event) {
-		isServerStarted = false;
+	@Test public void testTestInfrastructure() throws Throwable {
+		assertNotNull(game);
+		assertTrue(game.getPluginManager().isLoaded(TestsRunnerPlugin.ID));
+		assertTrue(game == TestsRunnerPlugin.game);
 	}
 
 }

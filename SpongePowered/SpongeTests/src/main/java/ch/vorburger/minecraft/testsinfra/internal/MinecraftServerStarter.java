@@ -1,4 +1,4 @@
-package ch.vorburger.minecraft.testsinfra;
+package ch.vorburger.minecraft.testsinfra.internal;
 
 import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
@@ -59,7 +59,7 @@ public class MinecraftServerStarter {
 		// logger.info("waitForServerStartupCompletion: isServerStarted == true [{}]", testsRunnerPluginClassFromLaunchClassLoader.getClassLoader());
 		waiter.until(() -> Boolean.TRUE.equals(isServerStartedField.get(null)));
 
-		Field gameField = testsRunnerPluginClassFromLaunchClassLoader.getDeclaredField("_game");
+		Field gameField = testsRunnerPluginClassFromLaunchClassLoader.getDeclaredField("game");
 		gameField.setAccessible(true);
 		game = /* DO NOT (Game) */ gameField.get(null);
 	}

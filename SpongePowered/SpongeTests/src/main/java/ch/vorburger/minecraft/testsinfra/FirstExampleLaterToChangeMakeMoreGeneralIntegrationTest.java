@@ -1,7 +1,5 @@
 package ch.vorburger.minecraft.testsinfra;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.spongepowered.api.Game;
@@ -18,10 +16,6 @@ public class FirstExampleLaterToChangeMakeMoreGeneralIntegrationTest {
 
 	// TODO @Inject
 	public Game game;
-
-	@Test public void testTestInfrastructure() throws Throwable {
-		assertNotNull(game);
-	}
 
 	@Test public void testAliasCommandNoArguments() throws Throwable {
 		// TODO factor this out into a CommandTestHelper

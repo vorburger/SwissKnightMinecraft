@@ -1,6 +1,7 @@
 /run/config/sponge/worlds/
 /run/logs/
 /run/world/
+/run/server.properties
 /run/banned-ips.json
 /run/banned-players.json
 /run/ops.json
