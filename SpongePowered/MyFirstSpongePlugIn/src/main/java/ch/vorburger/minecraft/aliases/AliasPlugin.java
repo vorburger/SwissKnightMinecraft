@@ -1,8 +1,8 @@
 package ch.vorburger.minecraft.aliases;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.Map;
+import java.util.Optional;
 
 import org.spongepowered.api.Game;
 import org.spongepowered.api.event.GameEvent;
@@ -33,7 +33,7 @@ import ch.vorburger.minecraft.command.CommandRegistry;
 public class AliasPlugin extends AbstractHotPlugin {
 
 	// TODO Persistence.. save the aliases, to survive restarts!
-	
+
 	protected @Inject Game game;
 	protected @Inject PluginContainer plugin;
 	protected @Inject CommandRegistry commandRegistry;
@@ -41,9 +41,9 @@ public class AliasPlugin extends AbstractHotPlugin {
 	protected CommandService commandService; // cannot @Inject this :(
 
 	protected Map<String, Script> aliases = new MapMaker().makeMap();
-	
+
 	protected static final Joiner joiner = Joiner.on(' ');
-	
+
 	// @Command(value = "repeat command N times", aliases = { "n", "repeat", "loop" })
 	public void x(CommandSource commandSource, int n, String... commandsToRepeat) {
 		String joinedCommandsToRepeat = joiner.join(commandsToRepeat);
@@ -65,7 +65,7 @@ public class AliasPlugin extends AbstractHotPlugin {
 		else // !name.isPresent() && !commandsToAlias.isPresent()
 			alias(commandSource);
 	}
-	
+
 	//// @Command("register a new Alias command")
 	public void alias(CommandSource commandSource, String name, String commandsToAlias) {
 		Script script = new Script(/*name, */commandsToAlias);
@@ -74,7 +74,7 @@ public class AliasPlugin extends AbstractHotPlugin {
 			commandRegistry.register(command.get());
 		aliases.put(name, script);
 	}
-	
+
 	//// @Command("list all available Aliases commands")
 	public void alias(CommandSource commandSource) {
 		commandSource.sendMessage(Texts.of(aliases.keySet().toString()));
@@ -90,32 +90,32 @@ public class AliasPlugin extends AbstractHotPlugin {
 	protected void onStop(GameEvent event) {
 		commandRegistry.unregisterAll();
 	}
-	
+
 	@Override
 	protected void onLoaded(GameEvent event) {
 		this.commandService = game.getCommandDispatcher();
-		
+
 		commandRegistry.register(CommandSpec.builder().description(Texts.of("repeat command N times")).arguments(
-					// GenericArguments.playerOrSource(Texts.of("player"), game)
-					GenericArguments.integer(Texts.of("n")),
-					GenericArguments.allOf(GenericArguments.string(Texts.of("commandToRepeat")))
+				// GenericArguments.playerOrSource(Texts.of("player"), game)
+				GenericArguments.integer(Texts.of("n")),
+				GenericArguments.allOf(GenericArguments.string(Texts.of("commandToRepeat")))
 				).executor(CommandExecutorAdapter.adapt((src, args) -> {
 					// Player player = (Player) src; // TODO if instanceof
 					Integer n = args.<Integer>getOne("n").get();
 					Collection<String> commandsToRepeat = args.<String>getAll("commandToRepeat");
 					this.x(src, n, commandsToRepeat.toArray(new String[0]));
 				})).build(), "x");
-		
+
 		commandRegistry.register(CommandSpec.builder().description(Texts.of("list all / register new / delete Alias command")).arguments(
 				// GenericArguments.playerOrSource(Texts.of("player"), game)
 				GenericArguments.optional(GenericArguments.string(Texts.of("cmd")),
-				GenericArguments.optional(GenericArguments.remainingJoinedStrings(Texts.of("commandsToAlias"))))
-			).executor(CommandExecutorAdapter.adapt((src, args) -> {
-				// Player player = (Player) src; // TODO if instanceof
-				Optional<String> name = args.<String>getOne("cmd");
-				Optional<String> commandsToAlias = args.<String>getOne("commandsToAlias");
-				this.alias(src, name, commandsToAlias);
-			})).build(), "alias");
+						GenericArguments.optional(GenericArguments.remainingJoinedStrings(Texts.of("commandsToAlias"))))
+				).executor(CommandExecutorAdapter.adapt((src, args) -> {
+					// Player player = (Player) src; // TODO if instanceof
+					Optional<String> name = args.<String>getOne("cmd");
+					Optional<String> commandsToAlias = args.<String>getOne("commandsToAlias");
+					this.alias(src, name, commandsToAlias);
+				})).build(), "alias");
 
 	}
 }
