@@ -4,9 +4,9 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.GameEvent;
+import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
@@ -16,7 +16,6 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.command.CommandCallable;
 import org.spongepowered.api.util.command.CommandMapping;
 
-import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 
 import ch.vorburger.hotea.minecraft.api.AbstractHotPlugin;
@@ -59,6 +58,7 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
         .build();
 	}
 */	
+	
 	@Override
 	protected void onLoaded(GameEvent event) {
 		logger.info("hello ServerStartingEvent from MyFirstSpongePlugIn!");
@@ -74,7 +74,7 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 		}
 	}
 
-	@Subscribe
+	@Listener
 	public void onPlayerJoin(ClientConnectionEvent.Join event) {
 		Player player = event.getTargetEntity();
 		String name = player.getName();
@@ -83,7 +83,7 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 		player.sendMessage(Texts.builder("hello! Welcome...").color(TextColors.GOLD).append(Texts.of(name)).build());
 		// TODO player.sendTitle(title);
 
-		/* Optional<Human> seymour = */ spawnHelper.spawnLNE(Human.class, player.getLocation());
+		// /* Optional<Human> seymour = */ spawnHelper.spawnLNE(Human.class, player.getLocation());
 	}
 
 	@Override

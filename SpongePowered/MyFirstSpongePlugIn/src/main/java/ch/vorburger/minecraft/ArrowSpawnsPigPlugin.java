@@ -8,21 +8,19 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.animal.Pig;
 import org.spongepowered.api.entity.projectile.Arrow;
+import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.entity.SpawnEntityEvent;
-import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import com.google.common.eventbus.Subscribe;
-
-@Plugin(id = "ArrowSpawnsPig", name = "Arrow spawns Pig", version = "1.0.0-SNAPSHOT")
+//@Plugin(id = "ArrowSpawnsPig", name = "Arrow spawns Pig", version = "1.0.0-SNAPSHOT")
 public class ArrowSpawnsPigPlugin {
 
 	// private Arrow arrow;
 	// private Pig arrowsPig;
 
-	@Subscribe
+	@Listener
 	public void onEntitySpawn(SpawnEntityEvent event) {
 		Entity spawnedEntity = event.getTargetEntity();
 		// TODO Xtend case switch
@@ -48,9 +46,9 @@ public class ArrowSpawnsPigPlugin {
 			throw new IllegalArgumentException("Cannot be a passenger: " + rider.toString());
 		passengerData.get().set(Keys.PASSENGER, ridden);
 	}
-	
-/*	This, as well as using EntityMoveEvent and other EntityDisplaceEvent subclasses, only ever gives PlayerMoveEvent, but never moving arrows or pigs. Why? (How to build custom AI for guys following around?)
- *  
+
+	/*	This, as well as using EntityMoveEvent and other EntityDisplaceEvent subclasses, only ever gives PlayerMoveEvent, but never moving arrows or pigs. Why? (How to build custom AI for guys following around?)
+	 *
 	@Subscribe
 	public void onEntityMove(EntityDisplaceEvent event) {
 		System.out.println(event.toString());
@@ -59,5 +57,5 @@ public class ArrowSpawnsPigPlugin {
 			System.out.println("pig followed arrow");
 		}
 	}
-*/
+	 */
 }
