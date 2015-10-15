@@ -3,6 +3,9 @@ package ch.vorburger.minecraft.logo;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.util.command.source.LocatedSource;
@@ -16,6 +19,7 @@ import ch.vorburger.minecraft.utils.SpawnHelper;
 
 @Plugin(id = "Logo", name = "Logo-like commands (thank you, Seymour Papert)", version = "1.0")
 public class LogoPlugin extends AbstractHotPluginWithCommands {
+	private final static Logger logger = LoggerFactory.getLogger(LogoPlugin.class);
 
 	Map<LocatedSource, Turtle> playerTurtleMap = new MapMaker().makeMap();
 	SpawnHelper spawnHelper = new SpawnHelper();
@@ -94,19 +98,20 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 //		getTurtle(player).dig();
 //	}
 	
-	protected Turtle getTurtle(LocatedSource player) {
-		return playerTurtleMap.computeIfAbsent(player, new Function<LocatedSource, Turtle>() {
+	protected Turtle getTurtle(LocatedSource source) {
+		return playerTurtleMap.computeIfAbsent(source, new Function<LocatedSource, Turtle>() {
 			public Turtle apply(LocatedSource t) {
 				try {
 					Human turtleEntity = spawnHelper.spawn(Human.class, t.getLocation());
 					
-					// TODO https://docs.spongepowered.org/en-GB/plugin/data/index.html
-					// TODO Move this to a new DataHelper utility class? And an additional EntityHelper with simply fly(Entity) method?
-					// ??? turtleEntity.getData(FlyingData.class).get().set(true);
+					turtleEntity.offer(Keys.CAN_FLY, true);
+					turtleEntity.offer(Keys.IS_FLYING, true);
+					turtleEntity.offer(Keys.FLYING_SPEED, 0.0);
 					
 					return new EntityConnectedTurtle(turtleEntity);
 				} catch (MinecraftHelperException e) {
-					return new Turtle(player);
+					logger.error("Unable to spawn Seymour Human Turtle for LocatedSource, falling back to invisible Turtle: " + source, e);
+					return new Turtle(source);
 				}
 				
 			}
