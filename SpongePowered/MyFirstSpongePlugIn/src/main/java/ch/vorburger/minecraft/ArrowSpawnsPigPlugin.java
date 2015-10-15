@@ -22,7 +22,7 @@ public class ArrowSpawnsPigPlugin {
 
 	@Listener
 	public void onEntitySpawn(SpawnEntityEvent event) {
-		Entity spawnedEntity = event.getTargetEntity();
+		Entity spawnedEntity = null; // ? event.getTargetEntity();
 		// TODO Xtend case switch
 		if (spawnedEntity instanceof Arrow) {
 			Arrow arrow = (Arrow) spawnedEntity;
