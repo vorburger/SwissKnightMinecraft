@@ -64,7 +64,6 @@ public class MinecraftRunner extends BlockJUnit4ClassRunner {
 			return super.createTestClass(testClassFromMinecraftClassLoader);
 		} catch (ClassNotFoundException e) {
 			// This really should never happen..
-			// https://github.com/junit-team/junit/pull/1209
 			throw new RuntimeException(e);
 		}
 	}
