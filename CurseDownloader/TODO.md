@@ -1,11 +1,13 @@
 
 - [ ] Gradle fat JAR and main() MANIFEST
 
+- [ ] Blog & Video
+
 - [ ] Progress bar
 
 - [ ] Parallelize DL!
 
-- [ ] integrate with a launcher, either http://www.technicpack.net or https://multimc.org or https://www.atlauncher.com (if that's even OSS?)
+- [ ] integrate with a launcher? Best http://www.technicpack.net, because https://multimc.org is CPP instead of Java, and https://www.atlauncher.com IS OSS, but clearly less popular
 
 - [ ] use Xtend
 
