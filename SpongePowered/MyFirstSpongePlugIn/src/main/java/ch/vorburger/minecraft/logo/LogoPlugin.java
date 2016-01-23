@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.util.command.source.LocatedSource;
@@ -23,7 +22,7 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 
 	Map<LocatedSource, Turtle> playerTurtleMap = new MapMaker().makeMap();
 	SpawnHelper spawnHelper = new SpawnHelper();
-	
+
 	@Command("draw big cube")
 	public void cube(LocatedSource player) {
 		Turtle turtle = new Turtle(player);
@@ -41,7 +40,7 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 
 	// TODO New Command to change Block, pick it from Player
 	// TODO New Command to create a new turtle for the Player
-	
+
 
 	@Command("Move Turtle forward, and draw if pen down")
 	public void fd(LocatedSource player) {
@@ -88,32 +87,34 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 		getTurtle(player).remove();
 	}
 
-//	@Command("Make Turtle interact")
-//	public void inter(Player player) {
-//		getTurtle(player).interact();
-//	}
+	//	@Command("Make Turtle interact")
+	//	public void inter(Player player) {
+	//		getTurtle(player).interact();
+	//	}
 
-//	@Command("Make Turtle dig")
-//	public void dig(LocatedSource player) {
-//		getTurtle(player).dig();
-//	}
-	
+	//	@Command("Make Turtle dig")
+	//	public void dig(LocatedSource player) {
+	//		getTurtle(player).dig();
+	//	}
+
 	protected Turtle getTurtle(LocatedSource source) {
 		return playerTurtleMap.computeIfAbsent(source, new Function<LocatedSource, Turtle>() {
+			@Override
 			public Turtle apply(LocatedSource t) {
 				try {
 					Human turtleEntity = spawnHelper.spawn(Human.class, t.getLocation());
-					
-					turtleEntity.offer(Keys.CAN_FLY, true);
-					turtleEntity.offer(Keys.IS_FLYING, true);
-					turtleEntity.offer(Keys.FLYING_SPEED, 0.0);
-					
-					return new EntityConnectedTurtle(turtleEntity);
+
+					// turtleEntity.offer(Keys.CAN_FLY, true);
+					// turtleEntity.offer(Keys.IS_FLYING, true);
+					// turtleEntity.offer(Keys.FLYING_SPEED, 0.0);
+
+					logger.info("Couldn't find Seymour Human Companion, so spawned a new one at: " + turtleEntity.getLocation().toString());
+					return new EntityConnectedTurtle(turtleEntity, t);
 				} catch (MinecraftHelperException e) {
 					logger.error("Unable to spawn Seymour Human Turtle for LocatedSource, falling back to invisible Turtle: " + source, e);
 					return new Turtle(source);
 				}
-				
+
 			}
 		});
 	}

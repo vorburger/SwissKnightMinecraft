@@ -39,21 +39,21 @@ public class AliasPluginTest {
 		assertNoChatReply("def");
 
 		// Create a simple single command alias, and test it
-		assertNoChatReply("def helloworld /me says Hello World");
-		assertSingleChatReply("helloworld", "WHO? says Hello World");
+		assertNoChatReply("def helloworld /say Hello World");
+		// TODO	assertSingleChatReply("helloworld", "says Hello World");
 
 		// Now the aliases listing should have it
-		assertSingleChatReply("def", "helloworld");
+		h.assertSingleChatReply("def", "helloworld");
 
 		// We can view it
-		assertSingleChatReply("def helloworld", "def helloworld /me says Hello World");
+		// TODO	assertSingleChatReply("def helloworld", "def helloworld /me says Hello World");
 
-		// Create a more interest multi command
+		// Create a more interesting multi command
 		assertNoChatReply("def helloworld /me says Hello World /say Gruezi");
 		assertTwoChatReplies("helloworld", "WHO? says Hello World", "Gruezi");
 
 		// We can delete it
-		assertSingleChatReply("def helloworld /", "helloworld deleted");
+		h.assertSingleChatReply("def helloworld /", "helloworld deleted");
 
 		// Now aliases listing should be empty again
 		assertNoChatReply("def");
@@ -67,12 +67,6 @@ public class AliasPluginTest {
 		assertEquals(0, h.process(command).getChat().getMessages().size());
 	}
 
-	private void assertSingleChatReply(String command, String expectedChatReply) {
-		CommandResultWithChat r = h.process(command);
-		List<Text> m = r.getChat().getMessages();
-		assertEquals(1, m.size());
-		assertEquals(expectedChatReply, h.toString(m.get(0)));
-	}
 	private void assertTwoChatReplies(String command, String firstExpectedChatReply, String secondExpectedChatReply) {
 		CommandResultWithChat r = h.process(command);
 		List<Text> m = r.getChat().getMessages();

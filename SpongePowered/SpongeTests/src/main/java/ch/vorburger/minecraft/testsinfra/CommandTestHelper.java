@@ -24,6 +24,8 @@
  */
 package ch.vorburger.minecraft.testsinfra;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -53,13 +55,16 @@ import org.spongepowered.api.util.command.CommandSource;
  *
  * @author Michael Vorburger
  */
-public class CommandTestHelper {
+public class CommandTestHelper implements ChatMessageCapturingPlugin.ChatMessageListener {
 
 	protected Game game;
+	private List<Text> pluginCapturedMessages = new ArrayList<Text>();
 
 	// TODO remove constructor, use @Inject Game game instead
 	public CommandTestHelper(Game game) {
 		this.game = game;
+		ChatMessageCapturingPlugin plugin = (ChatMessageCapturingPlugin) game.getPluginManager().getPlugin(ChatMessageCapturingPlugin.ID).get().getInstance();
+		//		plugin.setListener(this);
 	}
 
 	public CommandResultWithChat process(String command) {
@@ -74,7 +79,13 @@ public class CommandTestHelper {
 		// TODO Ideally make this more robust.. would require changes to core Sponge
 		assertDoesNotContainIgnoreCase(wrappedSource, "commands.generic.notFound"); // "Unknown command"
 		assertDoesNotContainIgnoreCase(wrappedSource, "Error occurred while executing command"); // as in SimpleCommandService
-		return new CommandResultWithChat(result, wrappedSource);
+		Chat thisChat = new Chat() {
+			@Override
+			public List<Text> getMessages() {
+				return pluginCapturedMessages;
+			}
+		};
+		return new CommandResultWithChat(result, thisChat);
 	}
 
 	public String toString(Text text) {
@@ -121,6 +132,13 @@ public class CommandTestHelper {
 
 	public boolean containsIgnoreCase(Chat chat, String text) {
 		return toString(chat).toLowerCase().contains(text.toLowerCase());
+	}
+
+	public void assertSingleChatReply(String command, String expectedChatReply) throws AssertionError {
+		CommandResultWithChat r = process(command);
+		List<Text> m = r.getChat().getMessages();
+		assertEquals(1, m.size());
+		assertEquals(expectedChatReply, toString(m.get(0)));
 	}
 
 	public void assertDoesNotContainIgnoreCase(Chat chat, String text) throws AssertionError {
@@ -170,12 +188,17 @@ public class CommandTestHelper {
 		List<Text> getMessages();
 	}
 
+	@Override
+	public void onMessage(Text message) {
+		pluginCapturedMessages.add(message);
+	}
+
 	protected ChatKeepingCommandSource wrap(CommandSource source) {
 		return new ChatKeepingCommandSource(source);
 	}
 
 	protected static class ChatKeepingCommandSource extends DelegatingCommandSource implements Chat {
-		private List<Text> sentMessages = new ArrayList<Text>();
+		private List<Text> sentMessages = new ArrayList<>();
 
 		public ChatKeepingCommandSource(CommandSource source) {
 			super(source);

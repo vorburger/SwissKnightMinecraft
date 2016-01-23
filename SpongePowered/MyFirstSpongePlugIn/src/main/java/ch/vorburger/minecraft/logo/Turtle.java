@@ -3,6 +3,8 @@ package ch.vorburger.minecraft.logo;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.Entity;
@@ -20,23 +22,24 @@ import com.flowpowered.math.vector.Vector3i;
  * Turtle.
  *
  * @see <a href="https://en.wikipedia.org/wiki/Logo_(programming_language)">Logo (programming language) on Wikipedia</a>
- * @see <a href="http://computercraft.info/wiki/Turtle_(API)">Computer Craft Turtle API</a> 
- * 
+ * @see <a href="http://computercraft.info/wiki/Turtle_(API)">Computer Craft Turtle API</a>
+ *
  * @author Michael Vorburger
  */
 public class Turtle {
+	private static Logger logger = LoggerFactory.getLogger(Turtle.class);
 
-	Location location;
+	Location<World> location;
 	Direction direction;
 	BlockType blockType;
 	boolean isSettingBlockOnMove = true;
 
-	Turtle(Location location, Direction direction, BlockType blockType) {
-		this.location = location;
-		this.direction = direction;
-		this.blockType = blockType;
-	}
-	
+	//	Turtle(Location<World> location, Direction direction, BlockType blockType) {
+	//		this.location = location;
+	//		this.direction = direction;
+	//		this.blockType = blockType;
+	//	}
+
 	public Turtle(Entity player) {
 		init(player);
 	}
@@ -59,7 +62,7 @@ public class Turtle {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Location getStartingLocation(Entity entity) {
+	private Location<World> getStartingLocation(Entity entity) {
 		// TODO How to get the Location from where the Player is looking at?
 		// https://bukkit.org/threads/tutorial-how-to-calculate-vectors.138849/ ?
 
@@ -72,22 +75,27 @@ public class Turtle {
 		if (block.isPresent()) {
 			return block.get().getLocation();
 		} else {
-			System.err.println("BlockRay hasn't found anything, return Player location"); // TODO remove
+			logger.warn("getStartingLocation: BlockRay hasn't found anything, return Player location"); // TODO remove
 			return entity.getLocation();
 		}
-		
+
 		// TODO Forum post, this doesn't quite work, it's always "off" and too close... https://forums.spongepowered.org/t/how-to-get-the-location-the-player-is-looking-at-from-an-entity-location-and-rotation/8906
 		// TODO Try this https://forums.spongepowered.org/t/jumppad-plugin/6244 ??
 		// TODO double check impact of "BTW, right now SpongeAPI returns the rotations in a Vector3i with the mapping X -> yaw, Y -> pitch, Z -> roll. I'm changing that tomorrow to X -> pitch, Y -> yaw, Z -> roll to match flow-math (and the standard)." of https://forums.spongepowered.org/t/relative-teleportaion/7671/14
-//		Location location = entity.getLocation();
-//		Vector3d rotation = entity.getRotation();
-//        Vector3d direction = Quaterniond.fromAxesAnglesDeg(rotation.getY(), 360 - rotation.getX(), rotation.getZ()).getDirection();
-//        return new Location(location.getExtent(), location.getPosition().add(direction)); 
+		//		Location location = entity.getLocation();
+		//		Vector3d rotation = entity.getRotation();
+		//        Vector3d direction = Quaterniond.fromAxesAnglesDeg(rotation.getY(), 360 - rotation.getX(), rotation.getZ()).getDirection();
+		//        return new Location(location.getExtent(), location.getPosition().add(direction));
 	}
 
 	private Direction getDirection(Vector3d rotation) {
 		Direction initialDirection = Direction.getClosestHorizonal(rotation);
-		return initialDirection;
+		if (initialDirection.equals(Direction.NONE)) {
+			logger.warn("getDirection: Failed, cannot be NONE, so assuming NORTH");
+			return Direction.NORTH;
+		} else {
+			return initialDirection;
+		}
 	}
 
 	// ---
@@ -97,30 +105,30 @@ public class Turtle {
 	}
 
 	// ---
-	
+
 	void setBlockOnMove() {
 		isSettingBlockOnMove = true;
 	}
-	
+
 	void noSetBlockOnMove() {
 		isSettingBlockOnMove = false;
 	}
-	
+
 	// ---
 
 	void turnRight() {
 		switch (direction) {
 		case NORTH:
-			direction = Direction.EAST; 
+			direction = Direction.EAST;
 			break;
 		case EAST:
-			direction = Direction.SOUTH; 
+			direction = Direction.SOUTH;
 			break;
 		case SOUTH:
-			direction = Direction.WEST; 
+			direction = Direction.WEST;
 			break;
 		case WEST:
-			direction = Direction.NORTH; 
+			direction = Direction.NORTH;
 			break;
 		default:
 			throw new IllegalStateException(direction.toString());
@@ -131,23 +139,23 @@ public class Turtle {
 	void turnLeft() {
 		switch (direction) {
 		case NORTH:
-			direction = Direction.WEST; 
+			direction = Direction.WEST;
 			break;
 		case EAST:
-			direction = Direction.NORTH; 
+			direction = Direction.NORTH;
 			break;
 		case SOUTH:
-			direction = Direction.EAST; 
+			direction = Direction.EAST;
 			break;
 		case WEST:
-			direction = Direction.SOUTH; 
+			direction = Direction.SOUTH;
 			break;
 		default:
 			throw new IllegalStateException(direction.toString());
 		}
 		onChangeDirection(direction);
 	}
-		
+
 	protected void onChangeDirection(Direction newDirection) {
 	}
 
@@ -174,13 +182,13 @@ public class Turtle {
 	private void move(Direction directionToMove) {
 		setBlockIfPenDown();
 		Vector3i oldBlockPosition = location.getBlockPosition();
-		// TODO For performance, it would be better if Direction class had a toVector3i 
+		// TODO For performance, it would be better if Direction class had a toVector3i
 		Vector3i newBlockPosition = oldBlockPosition.add(directionToMove.toVector3d().toInt());
-		location = new Location(location.getExtent(), newBlockPosition);
+		location = new Location<World>(location.getExtent(), newBlockPosition);
 		onMove(location);
 	}
 
-	protected void onMove(Location newLocation) {
+	protected void onMove(Location<World> newLocation) {
 	}
 
 	private void setBlockIfPenDown() {
@@ -189,22 +197,22 @@ public class Turtle {
 	}
 
 	// ---
-	
+
 	void set() {
 		location.setBlockType(blockType);
 	}
-	
+
 	void remove() {
 		location.removeBlock();
 	}
 
-//	void interact() {
-//		// TODO missing Direction arg, req. in latest 2.1-SNAPSHOT ?
-//		location.interactBlock();
-//	}
-	
-//	void dig() {
-//		location.digBlock();
-//	}
+	//	void interact() {
+	//		// TODO missing Direction arg, req. in latest 2.1-SNAPSHOT ?
+	//		location.interactBlock();
+	//	}
+
+	//	void dig() {
+	//		location.digBlock();
+	//	}
 
 }

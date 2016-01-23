@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.event.GameEvent;
 import org.spongepowered.api.plugin.Plugin;
@@ -31,6 +32,7 @@ import ch.vorburger.minecraft.command.CommandRegistry;
  */
 @Plugin(id = "VAliases", name = "Aliasing commands", version = "1.0")
 public class AliasPlugin extends AbstractHotPlugin {
+	protected @Inject Logger logger;
 
 	// TODO Persistence.. save the aliases, to survive restarts!
 
@@ -72,6 +74,9 @@ public class AliasPlugin extends AbstractHotPlugin {
 		Optional<CommandMapping> command = commandHelper.createCommand(plugin, name, script.getCommands().toString(), script.asCommandExecutor(commandService));
 		if (command.isPresent())
 			commandRegistry.register(command.get());
+		else
+			// logger.error("Failed to create CommandMapping to register: " + name);
+			throw new IllegalArgumentException("Failed to create CommandMapping to register: " + name);
 		aliases.put(name, script);
 	}
 
