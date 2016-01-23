@@ -14,12 +14,12 @@ import ch.vorburger.minecraft.cursedl.Downloader;
 
 public class CurseDownloaderTest {
 
-	@Test @Ignore
+	@Test
 	public void testDownloadOneFile() throws Exception {
 		new Downloader(Files.createTempDir()).download(223248, 2237600);
 	}
 	
-	@Test
+	@Test @Ignore
 	public void testCurseDownloader() throws Exception {
 		URL url = Resources.getResource("manifest.json");
 		String manifest = Resources.toString(url, Charsets.UTF_8);

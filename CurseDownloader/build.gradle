@@ -1,11 +1,16 @@
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'eclipse'
+
+mainClassName = "ch.vorburger.minecraft.cursedl.Main"
 
 sourceCompatibility = 1.7
 version = '1.0'
 jar {
     manifest {
-        attributes 'Implementation-Title': 'vorburger.ch CurseDownloader', 'Implementation-Version': version
+        attributes 'Implementation-Title': 'vorburger.ch CurseDownloader', 
+                   'Implementation-Version': version, 
+                   'Main-Class': mainClassName
     }
 }
 
