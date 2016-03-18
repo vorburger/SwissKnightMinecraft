@@ -19,36 +19,38 @@ public class CommandRegistry {
 	protected @Inject Logger logger;
 	protected @Inject Game game;
 	protected @Inject PluginContainer plugin;
-	
+
 	private List<CommandMapping> commandMappings = new ArrayList<CommandMapping>();
 
 	synchronized public void register(CommandMapping commandMapping) {
 		commandMappings.add(commandMapping);
 	}
-	
+
 	synchronized public void unregister(String name) {
 		for (CommandMapping commandMapping : commandMappings) {
 			if (name.equals(commandMapping.getPrimaryAlias())) {
 				game.getCommandDispatcher().removeMapping(commandMapping);
 				commandMappings.remove(commandMapping);
 			}
-		}		
+		}
 	}
 
 	public void unregisterAll() {
+		logger.debug("Removing {} commands", commandMappings.size());
 		for (CommandMapping commandMapping : commandMappings) {
+			logger.debug("Remove command: {}", commandMapping);
 			game.getCommandDispatcher().removeMapping(commandMapping);
 		}
-		commandMappings.clear();		
+		commandMappings.clear();
 	}
-	
+
 	// @see org.spongepowered.api.util.command.dispatcher.Dispatcher.getCommands()
 	public List<CommandMapping> getCommands() {
 		return Collections.unmodifiableList(commandMappings);
 	}
-	
+
 	// ---
-	
+
 	public void register(CommandSpec commandSpec, String... commandNameAndAliases) {
 		Optional<CommandMapping> optionalCommandMapping = game.getCommandDispatcher().register(plugin, commandSpec, commandNameAndAliases);
 		if (optionalCommandMapping.isPresent()) {

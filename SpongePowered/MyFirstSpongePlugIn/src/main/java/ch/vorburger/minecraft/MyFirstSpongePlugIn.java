@@ -8,7 +8,6 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.GameEvent;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
-import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.config.DefaultConfig;
 import org.spongepowered.api.text.Texts;
@@ -23,7 +22,7 @@ import ch.vorburger.minecraft.utils.SpawnHelper;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
-@Plugin(id = "MyFirstSponge", name = "My first Sponge Plug-In", version = "1.0")
+// @Plugin(id = "MyFirstSponge", name = "My first Sponge Plug-In", version = "1.0")
 public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 
 	@Inject Game game;
@@ -32,20 +31,20 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 
 	@DefaultConfig(sharedRoot = true)
 	@Inject ConfigurationLoader<CommentedConfigurationNode> configLoader;
-	
+
 	Optional<CommandMapping> commandMapping = Optional.empty();
-	
+
 	SpawnHelper spawnHelper = new SpawnHelper();
-	
-/*  https://github.com/SpongePowered/SpongeVanilla/issues/175
- * 
+
+	/*  https://github.com/SpongePowered/SpongeVanilla/issues/175
+	 *
 	@Subscribe
     public void onServerAboutToStart(ServerAboutToStartEvent event) {
     	// https://github.com/SpongePowered/Cookbook/blob/master/Plugin/WorldsTest/src/main/java/org/spongepowered/cookbook/plugin/WorldsTest.java
 		final SkylandsWorldGeneratorModifier skylandsModifier = new SkylandsWorldGeneratorModifier();
         this.game.getRegistry().registerWorldGeneratorModifier(skylandsModifier);
 
- 
+
         this.game.getRegistry().getWorldBuilder()
         	.name("skylands")
 	        .enabled(true)
@@ -57,17 +56,17 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 	        .gameMode(GameModes.CREATIVE)
         .build();
 	}
-*/	
-	
+	 */
+
 	@Override
 	protected void onLoaded(GameEvent event) {
 		logger.info("hello ServerStartingEvent from MyFirstSpongePlugIn!");
-		
+
 		// https://docs.spongepowered.org/en/plugin/basics/commands/creating.html
 		// https://github.com/SpongePowered/Cookbook/blob/master/Plugin/WorldEditingTest/src/main/java/org/spongepowered/cookbook/plugin/WorldEditingTest.java
 		WorldTeleportCommand worldTeleportCommand = new WorldTeleportCommand();
 		CommandCallable tpwCommandSpec = worldTeleportCommand.getCommandSpec(game);
-		// TODO put this into a superclass / @Inject helper of WorldTeleportCommand.. 
+		// TODO put this into a superclass / @Inject helper of WorldTeleportCommand..
 		commandMapping = game.getCommandDispatcher().register(plugin, tpwCommandSpec , "tpw" ,"tpworld");
 		if (!commandMapping.isPresent()) {
 			logger.error("/tpw Command could not be registered!! :-(");
@@ -89,7 +88,7 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 	@Override
 	protected void onStop(GameEvent event) {
 		logger.info("bye bye from MyFirstSpongePlugIn!");
-		
+
 		if (commandMapping.isPresent()) {
 			game.getCommandDispatcher().removeMapping(commandMapping.get());
 		}

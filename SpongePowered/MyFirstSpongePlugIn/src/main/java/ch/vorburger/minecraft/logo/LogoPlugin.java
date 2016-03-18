@@ -29,11 +29,11 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 		for (int h = 0; h < 3; h++) {
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 5; j++) {
-					turtle.moveForward();
+					turtle.fwd();
 				}
-				turtle.turnRight();
+				turtle.rt();
 			}
-			turtle.moveUp();
+			turtle.up();
 		}
 		// TODO For Dév, fill everything inside the house with Air.. eval. using /fill command!
 	}
@@ -44,32 +44,32 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 
 	@Command("Move Turtle forward, and draw if pen down")
 	public void fd(LocatedSource player) {
-		getTurtle(player).moveForward();
+		getTurtle(player).fwd();
 	}
 
 	@Command("Move Turtle backward, and draw if pen down")
 	public void bk(LocatedSource player) {
-		getTurtle(player).moveBack();
+		getTurtle(player).back();
 	}
 
 	@Command("Move Turtle upward, and draw if pen down")
 	public void up(LocatedSource player) {
-		getTurtle(player).moveUp();
+		getTurtle(player).up();
 	}
 
 	@Command("Move Turtle downward, and draw if pen down")
 	public void dn(LocatedSource player) {
-		getTurtle(player).moveDown();
+		getTurtle(player).down();
 	}
 
 	@Command("Turn Turtle right (no drawing)")
 	public void rt(LocatedSource player) {
-		getTurtle(player).turnRight();
+		getTurtle(player).rt();
 	}
 
 	@Command("Turn Turtle left (no drawing)")
 	public void lt(LocatedSource player) {
-		getTurtle(player).turnLeft();
+		getTurtle(player).lt();
 	}
 
 	@Command("Raise Turtle's Pen up")

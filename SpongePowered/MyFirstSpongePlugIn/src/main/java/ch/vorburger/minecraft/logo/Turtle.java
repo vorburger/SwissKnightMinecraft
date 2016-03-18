@@ -6,17 +6,17 @@ import org.spongepowered.api.world.World;
 
 public interface Turtle {
 
-	Location<World> moveForward();
+	Location<World> fwd();
 
-	Location<World> moveBack();
+	Location<World> back();
 
-	void turnRight();
+	void rt();
 
-	void turnLeft();
+	void lt();
 
-	Location<World> moveUp();
+	Location<World> up();
 
-	Location<World> moveDown();
+	Location<World> down();
 
 	void setBlockType(BlockType blockType);
 
@@ -27,5 +27,7 @@ public interface Turtle {
 	void setBlockOnMove();
 
 	void noSetBlockOnMove();
+
+	Location<World> getLocation();
 
 }

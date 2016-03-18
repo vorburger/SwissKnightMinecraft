@@ -17,9 +17,9 @@ class TrafficLight {
     def draw() {
         t => [
             blockType = BlockTypes.COAL_BLOCK
-            3.times[moveUp]
+            3.times[up]
             blockType = BlockTypes.GLASS 
-            light = moveUp
+            light = up
         ]
     }
     

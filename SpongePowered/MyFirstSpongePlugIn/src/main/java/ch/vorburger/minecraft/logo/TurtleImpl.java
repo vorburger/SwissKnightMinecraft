@@ -120,7 +120,7 @@ public class TurtleImpl implements Turtle {
 	// ---
 
 	@Override
-	public void turnRight() {
+	public void rt() {
 		switch (direction) {
 		case NORTH:
 			direction = Direction.EAST;
@@ -141,7 +141,7 @@ public class TurtleImpl implements Turtle {
 	}
 
 	@Override
-	public void turnLeft() {
+	public void lt() {
 		switch (direction) {
 		case NORTH:
 			direction = Direction.WEST;
@@ -167,25 +167,25 @@ public class TurtleImpl implements Turtle {
 	/** W
 	 * @return */
 	@Override
-	public Location<World> moveForward() {
+	public Location<World> fwd() {
 		return move(direction);
 	}
 
 	/** S */
 	@Override
-	public Location<World> moveBack() {
+	public Location<World> back() {
 		return move(direction.getOpposite());
 	}
 
 	/** Space */
 	@Override
-	public Location<World> moveUp() {
+	public Location<World> up() {
 		return move(Direction.UP);
 	}
 
 	/** Shift */
 	@Override
-	public Location<World> moveDown() {
+	public Location<World> down() {
 		return move(Direction.DOWN);
 	}
 
@@ -211,12 +211,20 @@ public class TurtleImpl implements Turtle {
 
 	@Override
 	public void set() {
-		location.setBlockType(blockType);
+		// TODO Perf better? if (!location.getBlockType().equals(blockType))
+		// TODO Perf with/without notifyNeighbors ?  Note also doin' this in UndoableTurtle
+		// TODO Variant with notifyNeighbors ==> AbstractMethodError
+		location.setBlockType(blockType /*, true */);
 	}
 
 	@Override
 	public void remove() {
 		location.removeBlock();
+	}
+
+	@Override
+	public Location<World> getLocation() {
+		return location;
 	}
 
 	//	void interact() {
