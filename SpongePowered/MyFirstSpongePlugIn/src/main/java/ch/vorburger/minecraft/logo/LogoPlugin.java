@@ -20,12 +20,12 @@ import ch.vorburger.minecraft.utils.SpawnHelper;
 public class LogoPlugin extends AbstractHotPluginWithCommands {
 	private final static Logger logger = LoggerFactory.getLogger(LogoPlugin.class);
 
-	Map<LocatedSource, Turtle> playerTurtleMap = new MapMaker().makeMap();
+	Map<LocatedSource, TurtleImpl> playerTurtleMap = new MapMaker().makeMap();
 	SpawnHelper spawnHelper = new SpawnHelper();
 
 	@Command("draw big cube")
 	public void cube(LocatedSource player) {
-		Turtle turtle = new Turtle(player);
+		TurtleImpl turtle = new TurtleImpl(player);
 		for (int h = 0; h < 3; h++) {
 			for (int i = 0; i < 4; i++) {
 				for (int j = 0; j < 5; j++) {
@@ -97,10 +97,10 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 	//		getTurtle(player).dig();
 	//	}
 
-	protected Turtle getTurtle(LocatedSource source) {
-		return playerTurtleMap.computeIfAbsent(source, new Function<LocatedSource, Turtle>() {
+	protected TurtleImpl getTurtle(LocatedSource source) {
+		return playerTurtleMap.computeIfAbsent(source, new Function<LocatedSource, TurtleImpl>() {
 			@Override
-			public Turtle apply(LocatedSource t) {
+			public TurtleImpl apply(LocatedSource t) {
 				try {
 					Human turtleEntity = spawnHelper.spawn(Human.class, t.getLocation());
 
@@ -112,7 +112,7 @@ public class LogoPlugin extends AbstractHotPluginWithCommands {
 					return new EntityConnectedTurtle(turtleEntity, t);
 				} catch (MinecraftHelperException e) {
 					logger.error("Unable to spawn Seymour Human Turtle for LocatedSource, falling back to invisible Turtle: " + source, e);
-					return new Turtle(source);
+					return new TurtleImpl(source);
 				}
 
 			}

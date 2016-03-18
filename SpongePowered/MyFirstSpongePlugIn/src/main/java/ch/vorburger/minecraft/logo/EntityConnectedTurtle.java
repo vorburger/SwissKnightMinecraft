@@ -7,7 +7,7 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 /**
- * {@link Turtle} that is connected to a visible Entity, moving that Entity
+ * {@link TurtleImpl} that is connected to a visible Entity, moving that Entity
  * along.
  *
  * Note that an Entity with AI such as a Pig will tend to turn and move away,
@@ -18,7 +18,7 @@ import org.spongepowered.api.world.World;
  *
  * @author Michael Vorburger
  */
-public class EntityConnectedTurtle extends Turtle {
+public class EntityConnectedTurtle extends TurtleImpl {
 
 	private Entity companion;
 
