@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'maven'
+// TODO plugins { id "org.xtend.xtend" version "0.4.10" }
 
 group = 'ch.vorburger.minecraft'
 version = '0.0.1-SNAPSHOT'
@@ -12,10 +13,12 @@ targetCompatibility = 1.8
 repositories {
      mavenLocal()
      maven { url "http://repo.spongepowered.org/maven" }
+     jcenter()
      maven { url "http://repo.maven.apache.org/maven2" }
 }
 
 dependencies {
+    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.0'
     compile(group: 'org.spongepowered', name: 'spongeapi', version:'2.1-SNAPSHOT') {
        /* TODO This dependency was originally in the Maven provided scope, but the project was not of type war.
        This behavior is not yet supported by Gradle, so this dependency has been converted to a compile dependency.
