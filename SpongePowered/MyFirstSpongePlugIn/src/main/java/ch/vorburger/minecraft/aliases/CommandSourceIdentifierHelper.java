@@ -1,6 +1,6 @@
 package ch.vorburger.minecraft.aliases;
 
-import org.spongepowered.api.util.command.CommandSource;
+import org.spongepowered.api.command.CommandSource;
 
 public interface CommandSourceIdentifierHelper {
 

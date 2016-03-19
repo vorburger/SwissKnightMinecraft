@@ -35,14 +35,14 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.command.CommandMapping;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.CommandElement;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.CommandMapping;
-import org.spongepowered.api.util.command.CommandSource;
-import org.spongepowered.api.util.command.args.CommandContext;
-import org.spongepowered.api.util.command.args.CommandElement;
-import org.spongepowered.api.util.command.args.GenericArguments;
+import org.spongepowered.api.text.Text;
 
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
@@ -152,7 +152,7 @@ public class CommandManager {
 				commandElement = GenericArguments.optional(commandElement);
 			if (arg.vararg)
 				if (String.class.equals(arg.type))
-					commandElement = GenericArguments.remainingJoinedStrings(Texts.of(arg.name));
+					commandElement = GenericArguments.remainingJoinedStrings(Text.of(arg.name));
 				else
 					throw new IllegalArgumentException("@Command method " + method.toString() + " last vararg parameter unsupported type, must be String: " + arg.type);
 			else
@@ -166,15 +166,15 @@ public class CommandManager {
 		if (type instanceof Class) {
 			Class<?> typeClass = (Class<?>) type;
 			if (Player.class.isAssignableFrom(typeClass)) {
-				return Optional.of(GenericArguments.player(Texts.of(name), game));
+				return Optional.of(GenericArguments.player(Text.of(name)));
 			} else if (CommandSource.class.isAssignableFrom(typeClass)) {
-				return Optional.of(GenericArguments.playerOrSource(Texts.of(name), game));
+				return Optional.of(GenericArguments.playerOrSource(Text.of(name)));
 			} else if (String.class.isAssignableFrom(typeClass)) {
-				return Optional.of(GenericArguments.string(Texts.of(name)));
+				return Optional.of(GenericArguments.string(Text.of(name)));
 			} else if (typeClass.isArray() && isVarArgs && typeClass.getComponentType().equals(String.class)) {
-				return Optional.of(GenericArguments.string(Texts.of(name)));
+				return Optional.of(GenericArguments.string(Text.of(name)));
 			} else if (Integer.TYPE.isAssignableFrom(typeClass) || Integer.class.isAssignableFrom(typeClass)) {
-				return Optional.of(GenericArguments.integer(Texts.of(name)));
+				return Optional.of(GenericArguments.integer(Text.of(name)));
 			}
 		}
 		return Optional.empty();

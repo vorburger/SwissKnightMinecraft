@@ -5,4 +5,4 @@ bin/
 xtend-gen/
 *._trace
 *.xtendbin
-
+.gradletasknamecache

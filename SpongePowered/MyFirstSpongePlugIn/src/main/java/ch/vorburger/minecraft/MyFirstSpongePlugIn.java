@@ -4,16 +4,16 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.command.CommandCallable;
+import org.spongepowered.api.command.CommandMapping;
+import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.GameEvent;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GameStateEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.service.config.DefaultConfig;
-import org.spongepowered.api.text.Texts;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.command.CommandCallable;
-import org.spongepowered.api.util.command.CommandMapping;
 
 import com.google.inject.Inject;
 
@@ -59,7 +59,7 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 	 */
 
 	@Override
-	protected void onLoaded(GameEvent event) {
+	protected void onLoaded(GameStateEvent event) {
 		logger.info("hello ServerStartingEvent from MyFirstSpongePlugIn!");
 
 		// https://docs.spongepowered.org/en/plugin/basics/commands/creating.html
@@ -67,7 +67,7 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 		WorldTeleportCommand worldTeleportCommand = new WorldTeleportCommand();
 		CommandCallable tpwCommandSpec = worldTeleportCommand.getCommandSpec(game);
 		// TODO put this into a superclass / @Inject helper of WorldTeleportCommand..
-		commandMapping = game.getCommandDispatcher().register(plugin, tpwCommandSpec , "tpw" ,"tpworld");
+		commandMapping = game.getCommandManager().register(plugin, tpwCommandSpec , "tpw" ,"tpworld");
 		if (!commandMapping.isPresent()) {
 			logger.error("/tpw Command could not be registered!! :-(");
 		}
@@ -79,18 +79,18 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 		String name = player.getName();
 		logger.info("onPlayerJoin: {} ", name);
 
-		player.sendMessage(Texts.builder("hello! Welcome...").color(TextColors.GOLD).append(Texts.of(name)).build());
+		player.sendMessage(Text.builder("hello! Welcome...").color(TextColors.GOLD).append(Text.of(name)).build());
 		// TODO player.sendTitle(title);
 
 		// /* Optional<Human> seymour = */ spawnHelper.spawnLNE(Human.class, player.getLocation());
 	}
 
 	@Override
-	protected void onStop(GameEvent event) {
+	protected void onStop(GameStateEvent event) {
 		logger.info("bye bye from MyFirstSpongePlugIn!");
 
 		if (commandMapping.isPresent()) {
-			game.getCommandDispatcher().removeMapping(commandMapping.get());
+			game.getCommandManager().removeMapping(commandMapping.get());
 		}
 	}
 }

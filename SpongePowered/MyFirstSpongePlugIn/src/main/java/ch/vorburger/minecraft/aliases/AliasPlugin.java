@@ -6,15 +6,14 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.event.GameEvent;
-import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.command.CommandManager;
+import org.spongepowered.api.command.CommandMapping;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.event.game.state.GameStateEvent;
 import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.service.command.CommandService;
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.CommandMapping;
-import org.spongepowered.api.util.command.CommandSource;
-import org.spongepowered.api.util.command.args.GenericArguments;
-import org.spongepowered.api.util.command.spec.CommandSpec;
+import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.MapMaker;
@@ -30,7 +29,7 @@ import ch.vorburger.minecraft.command.CommandRegistry;
  *    /x 4 fd
  * @author Michael Vorburger
  */
-@Plugin(id = "VAliases", name = "Aliasing commands", version = "1.0")
+//@Plugin(id = "VAliases", name = "Aliasing commands", version = "1.0")
 public class AliasPlugin extends AbstractHotPlugin {
 	protected @Inject Logger logger;
 
@@ -40,7 +39,7 @@ public class AliasPlugin extends AbstractHotPlugin {
 	protected @Inject PluginContainer plugin;
 	protected @Inject CommandRegistry commandRegistry;
 	protected @Inject CommandHelper commandHelper;
-	protected CommandService commandService; // cannot @Inject this :(
+	protected CommandManager commandService; // cannot @Inject this :(
 
 	protected Map<String, Script> aliases = new MapMaker().makeMap();
 
@@ -84,7 +83,7 @@ public class AliasPlugin extends AbstractHotPlugin {
 	public void alias(CommandSource commandSource) {
 		// TODO Format more nicely!
 		if (!aliases.keySet().isEmpty())
-			commandSource.sendMessage(Texts.of(aliases.keySet().toString()));
+			commandSource.sendMessage(Text.of(aliases.keySet().toString()));
 	}
 
 	//// @Command("delete an Alias command")
@@ -94,18 +93,18 @@ public class AliasPlugin extends AbstractHotPlugin {
 	}
 
 	@Override
-	protected void onStop(GameEvent event) {
+	protected void onStop(GameStateEvent event) {
 		commandRegistry.unregisterAll();
 	}
 
 	@Override
-	protected void onLoaded(GameEvent event) {
-		this.commandService = game.getCommandDispatcher();
+	protected void onLoaded(GameStateEvent event) {
+		this.commandService = game.getCommandManager();
 
-		commandRegistry.register(CommandSpec.builder().description(Texts.of("repeat command N times")).arguments(
-				// GenericArguments.playerOrSource(Texts.of("player"), game)
-				GenericArguments.integer(Texts.of("n")),
-				GenericArguments.allOf(GenericArguments.string(Texts.of("commandToRepeat")))
+		commandRegistry.register(CommandSpec.builder().description(Text.of("repeat command N times")).arguments(
+				// GenericArguments.playerOrSource(Text.of("player"), game)
+				GenericArguments.integer(Text.of("n")),
+				GenericArguments.allOf(GenericArguments.string(Text.of("commandToRepeat")))
 				).executor(CommandExecutorAdapter.adapt((src, args) -> {
 					// Player player = (Player) src; // TODO if instanceof
 					Integer n = args.<Integer>getOne("n").get();
@@ -113,10 +112,10 @@ public class AliasPlugin extends AbstractHotPlugin {
 					this.x(src, n, commandsToRepeat.toArray(new String[0]));
 				})).build(), "x");
 
-		commandRegistry.register(CommandSpec.builder().description(Texts.of("list all / register new / delete Alias command")).arguments(
-				// GenericArguments.playerOrSource(Texts.of("player"), game)
-				GenericArguments.optional(GenericArguments.string(Texts.of("cmd"))),
-				GenericArguments.optional(GenericArguments.remainingJoinedStrings(Texts.of("commandsToAlias")))
+		commandRegistry.register(CommandSpec.builder().description(Text.of("list all / register new / delete Alias command")).arguments(
+				// GenericArguments.playerOrSource(Text.of("player"), game)
+				GenericArguments.optional(GenericArguments.string(Text.of("cmd"))),
+				GenericArguments.optional(GenericArguments.remainingJoinedStrings(Text.of("commandsToAlias")))
 				).executor(CommandExecutorAdapter.adapt((src, args) -> {
 					// Player player = (Player) src; // TODO if instanceof
 					Optional<String> name = args.<String>getOne("cmd");

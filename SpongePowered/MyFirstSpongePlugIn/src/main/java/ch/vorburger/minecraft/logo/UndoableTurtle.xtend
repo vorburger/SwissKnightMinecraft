@@ -5,7 +5,7 @@ import java.util.Queue
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.spongepowered.api.block.BlockSnapshot
-import org.spongepowered.api.util.command.source.LocatedSource
+import org.spongepowered.api.command.source.LocatedSource
 
 class UndoableTurtle extends TurtleImpl { // NOTE: Must extend, cannot use *Delegate, because the crux here is the override set()
     private static Logger logger = LoggerFactory.getLogger(UndoableTurtle);

@@ -1,27 +1,17 @@
 package ch.vorburger.minecraft.aliases;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.spongepowered.api.Game;
-import org.spongepowered.api.text.Text;
-
-import ch.vorburger.minecraft.testsinfra.CommandTestHelper;
-import ch.vorburger.minecraft.testsinfra.CommandTestHelper.CommandResultWithChat;
-import ch.vorburger.minecraft.testsinfra.MinecraftRunner;
+//import ch.vorburger.minecraft.testsinfra.CommandTestHelper;
+//import ch.vorburger.minecraft.testsinfra.CommandTestHelper.CommandResultWithChat;
+//import ch.vorburger.minecraft.testsinfra.MinecraftRunner;
 
 /**
  * Integration Tests for AliasPlugin.
  *
  * @author Michael Vorburger
  */
-@RunWith(MinecraftRunner.class)
+//@RunWith(MinecraftRunner.class)
 public class AliasPluginTest {
-
+	/*
 	public Game game;
 	CommandTestHelper h;
 
@@ -75,4 +65,5 @@ public class AliasPluginTest {
 		assertEquals(secondExpectedChatReply, h.toString(m.get(1)));
 	}
 
+	 */
 }

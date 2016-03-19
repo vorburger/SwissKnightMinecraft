@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.spongepowered.api.Server;
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.util.command.source.LocatedSource;
+import org.spongepowered.api.command.source.LocatedSource;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 

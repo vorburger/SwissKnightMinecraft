@@ -1,12 +1,12 @@
 package ch.vorburger.minecraft.command;
 
-import org.spongepowered.api.text.Texts;
-import org.spongepowered.api.util.command.CommandException;
-import org.spongepowered.api.util.command.CommandResult;
-import org.spongepowered.api.util.command.CommandSource;
-import org.spongepowered.api.util.command.InvocationCommandException;
-import org.spongepowered.api.util.command.args.CommandContext;
-import org.spongepowered.api.util.command.spec.CommandExecutor;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.command.InvocationCommandException;
+import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.spec.CommandExecutor;
 
 public class CommandExecutorAdapter implements CommandExecutor {
 
@@ -28,7 +28,7 @@ public class CommandExecutorAdapter implements CommandExecutor {
 			return CommandResult.success();
 		} catch (Throwable e) {
 			final String msg = "Commmand failed: " + e.getMessage(); // "/" + commandNameAndAliases + " failed: " + e.getMessage();
-			throw new InvocationCommandException(Texts.of(msg), e);
+			throw new InvocationCommandException(Text.of(msg), e);
 		}
 	}
 

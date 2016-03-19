@@ -7,11 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.command.source.LocatedSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
-import org.spongepowered.api.util.command.source.LocatedSource;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -61,7 +61,6 @@ public class TurtleImpl implements Turtle {
 		this.blockType = BlockTypes.STONE;
 	}
 
-	@SuppressWarnings("unchecked")
 	private Location<World> getStartingLocation(Entity entity) {
 		// TODO How to get the Location from where the Player is looking at?
 		// https://bukkit.org/threads/tutorial-how-to-calculate-vectors.138849/ ?
@@ -89,7 +88,7 @@ public class TurtleImpl implements Turtle {
 	}
 
 	private Direction getDirection(Vector3d rotation) {
-		Direction initialDirection = Direction.getClosestHorizonal(rotation);
+		Direction initialDirection = Direction.getClosestHorizontal(rotation);
 		if (initialDirection.equals(Direction.NONE)) {
 			logger.warn("getDirection: Failed, cannot be NONE, so assuming NORTH");
 			return Direction.NORTH;

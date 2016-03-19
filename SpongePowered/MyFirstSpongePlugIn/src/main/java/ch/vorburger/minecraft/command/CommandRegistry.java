@@ -8,9 +8,9 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.command.CommandMapping;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.util.command.CommandMapping;
-import org.spongepowered.api.util.command.spec.CommandSpec;
 
 import com.google.inject.Inject;
 
@@ -29,7 +29,7 @@ public class CommandRegistry {
 	synchronized public void unregister(String name) {
 		for (CommandMapping commandMapping : commandMappings) {
 			if (name.equals(commandMapping.getPrimaryAlias())) {
-				game.getCommandDispatcher().removeMapping(commandMapping);
+				game.getCommandManager().removeMapping(commandMapping);
 				commandMappings.remove(commandMapping);
 			}
 		}
@@ -39,12 +39,12 @@ public class CommandRegistry {
 		logger.debug("Removing {} commands", commandMappings.size());
 		for (CommandMapping commandMapping : commandMappings) {
 			logger.debug("Remove command: {}", commandMapping);
-			game.getCommandDispatcher().removeMapping(commandMapping);
+			game.getCommandManager().removeMapping(commandMapping);
 		}
 		commandMappings.clear();
 	}
 
-	// @see org.spongepowered.api.util.command.dispatcher.Dispatcher.getCommands()
+	// @see org.spongepowered.api.command.dispatcher.Dispatcher.getCommands()
 	public List<CommandMapping> getCommands() {
 		return Collections.unmodifiableList(commandMappings);
 	}
@@ -52,7 +52,7 @@ public class CommandRegistry {
 	// ---
 
 	public void register(CommandSpec commandSpec, String... commandNameAndAliases) {
-		Optional<CommandMapping> optionalCommandMapping = game.getCommandDispatcher().register(plugin, commandSpec, commandNameAndAliases);
+		Optional<CommandMapping> optionalCommandMapping = game.getCommandManager().register(plugin, commandSpec, commandNameAndAliases);
 		if (optionalCommandMapping.isPresent()) {
 			register(optionalCommandMapping.get());
 		} else {

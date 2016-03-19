@@ -11,19 +11,18 @@ import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.living.Human;
 import org.spongepowered.api.entity.living.animal.Pig;
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.extent.EntityUniverse;
 
 /**
  * Helper to simplify spawning entities.
- * 
+ *
  * @author Michael Vorburger
  */
 public class SpawnHelper {
 	private final static Logger logger = LoggerFactory.getLogger(SpawnHelper.class);
-	
+
 	private Map<Class<? extends Entity>, EntityType> entityClassToTypeMap;
 
 	protected void populateNewEntityClassToTypeMap(Map<Class<? extends Entity>, EntityType> map) {
@@ -31,7 +30,7 @@ public class SpawnHelper {
 		map.put(Pig.class, EntityTypes.PIG);
 	}
 
-	// LNE = Log, but Never Exception. Returns Optional instead. 
+	// LNE = Log, but Never Exception. Returns Optional instead.
 	public <T extends Entity> Optional<T> spawnLNE(Class<T> entityClass, Location<World> startingLocation) {
 		try {
 			return Optional.of(spawn(entityClass, startingLocation));
@@ -47,13 +46,12 @@ public class SpawnHelper {
 		Optional<Entity> optionalEntity = entityUniverse.createEntity(entityType, location.getPosition());
 		if (optionalEntity.isPresent()) {
 			@SuppressWarnings("unchecked") T newEntity = (T) optionalEntity.get();
-			Cause cause = Cause.empty(); // ok?
-			boolean isSpawned = entityUniverse.spawnEntity(newEntity, cause);
+			boolean isSpawned = entityUniverse.spawnEntity(newEntity, null /* Cause.empty() */);
 			if (!isSpawned)
 				throw new MinecraftHelperException("Could not spawn new Entity: " + entityType.getName());
 			return newEntity;
 		} else {
-			throw new MinecraftHelperException("Could not create new Entity: " + entityType.getName());			
+			throw new MinecraftHelperException("Could not create new Entity: " + entityType.getName());
 		}
 	}
 
@@ -62,11 +60,11 @@ public class SpawnHelper {
 		if (!optionalEntityType.isPresent()) {
 			throw new MinecraftHelperException("EntityType not found for entityClass: " + entityClass.getName());
 		}
-		EntityType entityType = optionalEntityType.get(); 
-// TODO isAssignable..		
-//		if (!entityType.getEntityClass().equals(entityClass)) {
-//			throw new MinecraftHelperException("EntityType " + entityType.getName() + "'s entityClass " + entityType.getEntityClass() + " != " + entityClass);
-//		}
+		EntityType entityType = optionalEntityType.get();
+		// TODO isAssignable..
+		//		if (!entityType.getEntityClass().equals(entityClass)) {
+		//			throw new MinecraftHelperException("EntityType " + entityType.getName() + "'s entityClass " + entityType.getEntityClass() + " != " + entityClass);
+		//		}
 		return entityType;
 	}
 

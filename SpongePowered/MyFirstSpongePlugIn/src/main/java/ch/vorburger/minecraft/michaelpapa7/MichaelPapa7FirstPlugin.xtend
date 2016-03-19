@@ -2,14 +2,13 @@ package ch.vorburger.minecraft.michaelpapa7
 
 import ch.vorburger.minecraft.command.AbstractHotPluginWithCommands
 import ch.vorburger.minecraft.command.Command
-import ch.vorburger.minecraft.logo.TurtleImpl
 import ch.vorburger.minecraft.logo.UndoableTurtle
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 import org.spongepowered.api.plugin.Plugin
-import org.spongepowered.api.util.command.source.LocatedSource
+import org.spongepowered.api.command.source.LocatedSource
 
 import static extension ch.vorburger.xtend.IntegerExtensions2.*
-import org.spongepowered.api.event.GameEvent
+import org.spongepowered.api.event.game.state.GameStateEvent
 
 @Plugin(id="michaelpapa7", name="michaelpapa7", version="1.0")
 class MichaelPapa7FirstPlugin extends AbstractHotPluginWithCommands {
@@ -78,12 +77,12 @@ class MichaelPapa7FirstPlugin extends AbstractHotPluginWithCommands {
     // LIVE is Life (Opus, e.g. https://www.youtube.com/watch?v=EGikhmjTSZI)
     // TODO The LIVE support should, eventually, be outside of this plugin, as a "mode" re-running the last entered command
     
-    override onStop(GameEvent event) {
+    override onStop(GameStateEvent event) {
         turtle?.undo
         super.onStop(event)
     }
 
-    override onLoaded(GameEvent event) {
+    override onLoaded(GameStateEvent event) {
         super.onLoaded(event)
         // TODO redraw if undo on shutdown, but need to persist flag, and last start position..
     }

@@ -1,10 +1,13 @@
-apply plugin: 'java'
-apply plugin: 'maven'
-// TODO plugins { id "org.xtend.xtend" version "0.4.10" }
+plugins { 
+    id 'java'
+    id 'maven'
+    id 'eclipse'
+    id 'org.xtext.xtend' version '1.0.0'
+    id 'com.github.johnrengelman.shadow' version '1.2.3' 
+}
 
 group = 'ch.vorburger.minecraft'
 version = '0.0.1-SNAPSHOT'
-
 // description = """"""
 
 sourceCompatibility = 1.8
@@ -18,18 +21,16 @@ repositories {
 }
 
 dependencies {
-    compile 'org.eclipse.xtend:org.eclipse.xtend.lib:2.9.0'
-    compile(group: 'org.spongepowered', name: 'spongeapi', version:'2.1-SNAPSHOT') {
-       /* TODO This dependency was originally in the Maven provided scope, but the project was not of type war.
-       This behavior is not yet supported by Gradle, so this dependency has been converted to a compile dependency.
-       Please review and delete this closure when resolved. */
-    }
-    compile(group: 'ch.vorburger.hotea.minecraft', name: 'api', version:'1.0.0-SNAPSHOT') {
-    }
-    testCompile group: 'junit', name: 'junit', version: '4.+'
-}
+    compileOnly 'org.spongepowered:spongeapi:4.1.0-SNAPSHOT'
 
-apply plugin: 'eclipse'
+    compile('org.eclipse.xtend:org.eclipse.xtend.lib:2.9.0') {
+        exclude group: 'com.google.guava'
+    }
+    compile 'ch.vorburger.hotea.minecraft:api:1.0.0-SNAPSHOT'
+    
+    testCompile 'junit:junit:4.+'
+    testCompile 'org.spongepowered:spongeapi:4.1.0-SNAPSHOT'
+}
 
 compileJava {
      options.compilerArgs << '-parameters'
