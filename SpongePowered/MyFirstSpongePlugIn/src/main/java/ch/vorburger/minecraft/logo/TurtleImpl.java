@@ -10,6 +10,7 @@ import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.source.LocatedSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.util.Direction.Division;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
@@ -88,7 +89,7 @@ public class TurtleImpl implements Turtle {
 	}
 
 	private Direction getDirection(Vector3d rotation) {
-		Direction initialDirection = Direction.getClosestHorizontal(rotation);
+		Direction initialDirection = Direction.getClosestHorizontal(rotation, Division.CARDINAL);
 		if (initialDirection.equals(Direction.NONE)) {
 			logger.warn("getDirection: Failed, cannot be NONE, so assuming NORTH");
 			return Direction.NORTH;
