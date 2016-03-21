@@ -77,13 +77,11 @@ class MichaelPapa7FirstPlugin extends AbstractHotPluginWithCommands {
     // LIVE is Life (Opus, e.g. https://www.youtube.com/watch?v=EGikhmjTSZI)
     // TODO The LIVE support should, eventually, be outside of this plugin, as a "mode" re-running the last entered command
     
-    override onStop(GameStateEvent event) {
+    override onServerStopping() {
         turtle?.undo
-        super.onStop(event)
     }
 
-    override onLoaded(GameStateEvent event) {
-        super.onLoaded(event)
+    override onServerStarting() {
         // TODO redraw if undo on shutdown, but need to persist flag, and last start position..
     }
     

@@ -9,7 +9,8 @@ import org.spongepowered.api.command.CommandMapping;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.game.state.GameStateEvent;
+import org.spongepowered.api.event.game.state.GameStartingServerEvent;
+import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
@@ -17,13 +18,12 @@ import org.spongepowered.api.text.format.TextColors;
 
 import com.google.inject.Inject;
 
-import ch.vorburger.hotea.minecraft.api.AbstractHotPlugin;
 import ch.vorburger.minecraft.utils.SpawnHelper;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
 // @Plugin(id = "MyFirstSponge", name = "My first Sponge Plug-In", version = "1.0")
-public class MyFirstSpongePlugIn extends AbstractHotPlugin {
+public class MyFirstSpongePlugIn {
 
 	@Inject Game game;
 	@Inject Logger logger;
@@ -58,8 +58,8 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 	}
 	 */
 
-	@Override
-	protected void onLoaded(GameStateEvent event) {
+	@Listener
+	public void onServerStarting(GameStartingServerEvent event) {
 		logger.info("hello ServerStartingEvent from MyFirstSpongePlugIn!");
 
 		// https://docs.spongepowered.org/en/plugin/basics/commands/creating.html
@@ -85,8 +85,8 @@ public class MyFirstSpongePlugIn extends AbstractHotPlugin {
 		// /* Optional<Human> seymour = */ spawnHelper.spawnLNE(Human.class, player.getLocation());
 	}
 
-	@Override
-	protected void onStop(GameStateEvent event) {
+	@Listener
+	public void onServerStopping(GameStoppingServerEvent event) {
 		logger.info("bye bye from MyFirstSpongePlugIn!");
 
 		if (commandMapping.isPresent()) {

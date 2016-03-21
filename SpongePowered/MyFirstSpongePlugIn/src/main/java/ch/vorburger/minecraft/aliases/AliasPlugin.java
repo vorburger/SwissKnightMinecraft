@@ -11,7 +11,9 @@ import org.spongepowered.api.command.CommandMapping;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
-import org.spongepowered.api.event.game.state.GameStateEvent;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GameStartingServerEvent;
+import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 
@@ -19,7 +21,6 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.MapMaker;
 import com.google.inject.Inject;
 
-import ch.vorburger.hotea.minecraft.api.AbstractHotPlugin;
 import ch.vorburger.minecraft.command.CommandExecutorAdapter;
 import ch.vorburger.minecraft.command.CommandHelper;
 import ch.vorburger.minecraft.command.CommandRegistry;
@@ -30,7 +31,8 @@ import ch.vorburger.minecraft.command.CommandRegistry;
  * @author Michael Vorburger
  */
 //@Plugin(id = "VAliases", name = "Aliasing commands", version = "1.0")
-public class AliasPlugin extends AbstractHotPlugin {
+public class AliasPlugin {
+
 	protected @Inject Logger logger;
 
 	// TODO Persistence.. save the aliases, to survive restarts!
@@ -92,13 +94,13 @@ public class AliasPlugin extends AbstractHotPlugin {
 			commandRegistry.unregister(name);
 	}
 
-	@Override
-	protected void onStop(GameStateEvent event) {
+	@Listener
+	public void onServerStopping(GameStoppingServerEvent event) {
 		commandRegistry.unregisterAll();
 	}
 
-	@Override
-	protected void onLoaded(GameStateEvent event) {
+	@Listener
+	public void onServerStarting(GameStartingServerEvent event) {
 		this.commandService = game.getCommandManager();
 
 		commandRegistry.register(CommandSpec.builder().description(Text.of("repeat command N times")).arguments(

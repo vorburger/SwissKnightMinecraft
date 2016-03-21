@@ -26,7 +26,6 @@ dependencies {
     compile('org.eclipse.xtend:org.eclipse.xtend.lib:2.9.0') {
         exclude group: 'com.google.guava'
     }
-    compile 'ch.vorburger.hotea.minecraft:api:1.0.0-SNAPSHOT'
     
     testCompile 'junit:junit:4.+'
     testCompile 'org.spongepowered:spongeapi:4.1.0-SNAPSHOT'
