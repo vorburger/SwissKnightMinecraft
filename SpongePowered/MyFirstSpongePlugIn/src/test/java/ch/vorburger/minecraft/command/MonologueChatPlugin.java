@@ -30,7 +30,7 @@ import org.spongepowered.api.text.Text;
 
 // TODO This class should ultimately be moved into /SpongeTests/src/test/java/ch/vorburger/minecraft/testsinfra/tests
 @Plugin(id = MonologueChatPlugin.ID, name = "Chat with yourself", description = "Integration Tests Self/Monologue Chat", version = "1.0")
-public class MonologueChatPlugin extends AbstractHotPluginWithCommands {
+public class MonologueChatPlugin extends AbstractPluginWithCommands {
 	public final static String ID = "ch.vorburger.minecraft.tests.selfchat";
 
 	@Command("Talk to yourself (just for tests)")

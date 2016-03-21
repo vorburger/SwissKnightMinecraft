@@ -7,8 +7,7 @@ import org.spongepowered.api.plugin.PluginContainer;
 
 import com.google.inject.Inject;
 
-public abstract class AbstractHotPluginWithCommands {
-	// TODO remove *Hot* from class name
+public abstract class AbstractPluginWithCommands {
 
 	protected @Inject PluginContainer plugin;
 

@@ -1,6 +1,5 @@
 package ch.vorburger.minecraft.michaelpapa7
 
-import ch.vorburger.minecraft.command.AbstractHotPluginWithCommands
 import ch.vorburger.minecraft.command.Command
 import ch.vorburger.minecraft.logo.UndoableTurtle
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
@@ -9,9 +8,10 @@ import org.spongepowered.api.command.source.LocatedSource
 
 import static extension ch.vorburger.xtend.IntegerExtensions2.*
 import org.spongepowered.api.event.game.state.GameStateEvent
+import ch.vorburger.minecraft.command.AbstractPluginWithCommands
 
 @Plugin(id="michaelpapa7", name="michaelpapa7", version="1.0")
-class MichaelPapa7FirstPlugin extends AbstractHotPluginWithCommands {
+class MichaelPapa7FirstPlugin extends AbstractPluginWithCommands {
 
     // TODO Turtle should be @Inject on outside call of @Command method (which can also be called inside), and no explicit LocatedSource argument; @Inject of helper classes
     // TODO Support general /undo of last command; there should be no need for a def undo() here (and the turtle should be of type Turtle and not UndoableTurtle)

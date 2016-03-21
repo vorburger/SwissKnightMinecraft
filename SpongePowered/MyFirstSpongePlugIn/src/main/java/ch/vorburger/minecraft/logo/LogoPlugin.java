@@ -11,13 +11,13 @@ import org.spongepowered.api.plugin.Plugin;
 
 import com.google.common.collect.MapMaker;
 
-import ch.vorburger.minecraft.command.AbstractHotPluginWithCommands;
+import ch.vorburger.minecraft.command.AbstractPluginWithCommands;
 import ch.vorburger.minecraft.command.Command;
 import ch.vorburger.minecraft.utils.MinecraftHelperException;
 import ch.vorburger.minecraft.utils.SpawnHelper;
 
 @Plugin(id = "ch.vorburger.minecraft.logo", name = "LOGO", description="Logo-like commands (thank you, Seymour Papert)", version = "1.0")
-public class LogoPlugin extends AbstractHotPluginWithCommands {
+public class LogoPlugin extends AbstractPluginWithCommands {
 	private final static Logger logger = LoggerFactory.getLogger(LogoPlugin.class);
 
 	Map<LocatedSource, TurtleImpl> playerTurtleMap = new MapMaker().makeMap();
