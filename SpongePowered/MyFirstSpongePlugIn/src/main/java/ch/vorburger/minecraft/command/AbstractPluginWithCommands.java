@@ -11,7 +11,7 @@ public abstract class AbstractPluginWithCommands {
 
 	protected @Inject PluginContainer plugin;
 
-	private @Inject CommandManager commandManager;
+	private @Inject AnnotatedCommandManager commandManager;
 
 	protected void onServerStarting() {
 	}

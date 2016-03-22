@@ -57,7 +57,7 @@ import com.google.inject.Inject;
  *
  * @author Michael Vorburger
  */
-public class CommandManager {
+public class AnnotatedCommandManager {
 
 	protected @Inject Logger logger;
 	protected @Inject Game game;

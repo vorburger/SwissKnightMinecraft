@@ -12,7 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.spongepowered.api.command.CommandSource;
 
-import ch.vorburger.minecraft.command.CommandManager.MethodArg;
+import ch.vorburger.minecraft.command.AnnotatedCommandManager.MethodArg;
 
 @Ignore
 public class CommandManagerTest {
@@ -21,7 +21,7 @@ public class CommandManagerTest {
 
 	@Test public void getCommandElements() throws Exception {
 		Method method = this.getClass().getDeclaredMethod("test", CommandSource.class, Optional.class, Integer.TYPE, String.class);
-		List<MethodArg> methodArgs = new CommandManager().getMethodArgs(method);
+		List<MethodArg> methodArgs = new AnnotatedCommandManager().getMethodArgs(method);
 		assertEquals(4, methodArgs.size());
 
 		assertEquals("commandSource", methodArgs.get(0).name);
