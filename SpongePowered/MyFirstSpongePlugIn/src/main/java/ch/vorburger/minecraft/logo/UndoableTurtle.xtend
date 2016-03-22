@@ -23,9 +23,6 @@ class UndoableTurtle extends TurtleImpl { // NOTE: Must extend, cannot use *Dele
         for(var block = undoHistory.pollLast; block != null; block = undoHistory.pollLast) {
             if (!block.restore(true, true))
                 logger.warn("Could not undo Block: " + block)
-            else
-                if (logging)
-                    logger.info("Turtle undo block.restore(): " + block)
         }
     } 
     

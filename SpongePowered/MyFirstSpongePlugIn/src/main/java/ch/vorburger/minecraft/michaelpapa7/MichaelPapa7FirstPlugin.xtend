@@ -38,7 +38,6 @@ class MichaelPapa7FirstPlugin extends AbstractPluginWithCommands {
 
     @Command def house(LocatedSource source) {
         turtle = new UndoableTurtle(source)
-        turtle.logging = true
         timed("/house", [  house_(10) ])
     }
     
