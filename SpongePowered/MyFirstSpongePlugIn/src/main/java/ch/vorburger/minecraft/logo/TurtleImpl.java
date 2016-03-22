@@ -30,10 +30,13 @@ import com.flowpowered.math.vector.Vector3i;
 public class TurtleImpl implements Turtle {
 	private static Logger logger = LoggerFactory.getLogger(TurtleImpl.class);
 
+	// TODO convert class to Xtend
+
 	Location<World> location;
 	Direction direction;
 	BlockType blockType;
 	boolean isSettingBlockOnMove = true;
+	protected boolean logging;
 
 	//	Turtle(Location<World> location, Direction direction, BlockType blockType) {
 	//		this.location = location;
@@ -58,7 +61,9 @@ public class TurtleImpl implements Turtle {
 	private void init(Entity player) {
 		this.location = getStartingLocation(player);
 		this.direction = getDirection(player.getRotation());
-		// TODO how to obtain Player's current Block? (+ Separate constructors for Entity & Player.)
+		if (logging)
+			logger.info("Turtle init() location: {}, direction:", location, direction);
+		// TODO how to obtain Player's current Block? (+ Separate constructors for Entity & Player.) - Player.getItemInHand() => ItemStack.getItem().getBlockType()
 		this.blockType = BlockTypes.STONE;
 	}
 
@@ -215,6 +220,8 @@ public class TurtleImpl implements Turtle {
 		// TODO Perf with/without notifyNeighbors ?  Note also doin' this in UndoableTurtle
 		// TODO Variant with notifyNeighbors ==> AbstractMethodError
 		location.setBlockType(blockType /*, true */);
+		if (logging)
+			logger.info("Turtle set() location: " + location);
 	}
 
 	@Override
@@ -236,4 +243,8 @@ public class TurtleImpl implements Turtle {
 	//		location.digBlock();
 	//	}
 
+	public TurtleImpl setLogging(boolean logging) {
+		this.logging = logging;
+		return this;
+	}
 }

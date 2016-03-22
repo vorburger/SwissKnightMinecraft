@@ -18,7 +18,7 @@ class MichaelPapa7FirstPlugin extends AbstractPluginWithCommands {
 
     /* @Inject */ var extension UndoableTurtle turtle
 
-    def line(int length) { length.times[fwd] length.times[back] }
+    def line(int length) { (length-1).times[fwd] (length-1).times[back] }
     def plank(int side1, int side2) {
         side1.times[line(side2) nudge]
         lt side1.times[fwd] rt // return to start
@@ -38,11 +38,12 @@ class MichaelPapa7FirstPlugin extends AbstractPluginWithCommands {
 
     @Command def house(LocatedSource source) {
         turtle = new UndoableTurtle(source)
+        turtle.logging = true
         timed("/house", [  house_(10) ])
     }
     
     def house_(int size) {
-        wall(3,5)
+        wall(2,2)
         // box(size, size/2, 6)
         // TODO wall in the middle
         // TODO door!
