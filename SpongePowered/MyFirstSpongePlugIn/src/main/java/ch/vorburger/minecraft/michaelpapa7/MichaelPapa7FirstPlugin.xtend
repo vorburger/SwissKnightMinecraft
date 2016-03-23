@@ -18,31 +18,46 @@ class MichaelPapa7FirstPlugin extends AbstractPluginWithCommands {
 
     /* @Inject */ var extension UndoableTurtle turtle
 
-    def line(int length) { (length-1).times[fwd] (length-1).times[back] }
-    def plank(int side1, int side2) {
-        side1.times[line(side2) nudge]
-        lt side1.times[fwd] rt // return to start
+    def line(int length) { 
+        (length-1).times[fwd] (length-1).times[back]
     }
-    def nudge() { rt fwd lt }
 
-    def wall(int length, int height) { height.times[ line(length) up ] height.times[down] }
+    def plank(int side1, int side2) {
+        side1.times([line(side2)], [nudge])
+        lt() (side1-1).times[fwd] rt // return to start
+    }
+
+    def nudge() { 
+        rt fwd lt
+    }
+
+    def wall(int length, int height) { 
+        height.times([ line(length)], [ up ]) 
+        height.times[down]
+    }
+   
     def box(int side1, int side2, int height) { 
         plank(side1, side2)
-        wall(side1, height) rt 
-        wall(side2, height) line(side2) lt 
+        wall(side2, height) rt up
+        wall(side1, height)
+         
+        line(side1) lt 
         wall(side1, height) line(side1) lt 
-        wall(side2, height) line(side2) lt line(side1) rt rt height.times[ up ]
-        plank(side1, side2)
+//        wall(side2, height) line(side2) lt line(side1) rt rt height.times[ up ]
+//        plank(side1, side2)
     }
-    def cube(int size) { box(size, size, size) }
+    
+    def cube(int size) { 
+        box(size, size, size)
+    }
 
     @Command def house(LocatedSource source) {
         turtle = new UndoableTurtle(source)
-        timed("/house", [  house_(10) ])
+        timed("/house", [ house_(10) ])
     }
     
     def house_(int size) {
-        wall(2,2)
+        box(3, 4, 5)
         // box(size, size/2, 6)
         // TODO wall in the middle
         // TODO door!
@@ -85,7 +100,7 @@ class MichaelPapa7FirstPlugin extends AbstractPluginWithCommands {
         // TODO redraw if undo on shutdown, but need to persist flag, and last start position..
     }
     
-    // TODO this should happen automatically.. unless Sponge ALREADY has stats for timing commands, see https://docs.spongepowered.org/en/server/spongineer/commands.html ?
+    // TODO this should happen automatically.. the @Command could add dyn. wrap execution into this - unless Sponge ALREADY has stats for timing commands, see https://docs.spongepowered.org/en/server/spongineer/commands.html ?
     def timed(String name, Procedure0 p) {
         val t = System.currentTimeMillis
         p.apply

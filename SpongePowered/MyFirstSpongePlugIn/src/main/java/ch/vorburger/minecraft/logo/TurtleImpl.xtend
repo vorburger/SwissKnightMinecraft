@@ -41,24 +41,23 @@ class TurtleImpl implements Turtle {
 			init((locatedSource as Entity)) 
 		} else {
 			System.out.println("NaE so fixed direction") 
-			this.location=locatedSource.getLocation() 
-			this.direction=Direction.SOUTH 
-			this.blockType=BlockTypes.STONE 
+			this.location  = locatedSource.getLocation() 
+			this.direction = Direction.SOUTH 
+			this.blockType = BlockTypes.STONE 
 		}
 	}
 	
 	def private void init(Entity player) {
-		this.location=getStartingLocation(player) 
-		this.direction=getDirection(player.getRotation()) 
-		System.out.println('''dir: «direction»''') 
+		this.location  = getStartingLocation(player) 
+		this.direction = getDirection(player.getRotation()) 
 		// TODO how to obtain Player's current Block? (+ Separate constructors for Entity & Player.) - Player.getItemInHand() => ItemStack.getItem().getBlockType()
-		this.blockType=BlockTypes.STONE 
+		this.blockType = BlockTypes.STONE 
 	}
 	
 	def private Location<World> getStartingLocation(Entity entity) {
 		// TODO How to get the Location from where the Player is looking at?
 		// https://bukkit.org/threads/tutorial-how-to-calculate-vectors.138849/ ?
-		var Optional<BlockRayHit<World>> block=Optional.empty() 
+		var Optional<BlockRayHit<World>> block = Optional.empty() 
 		try {
 			block = BlockRay.from(entity).filter(BlockRay.onlyAirFilter(), BlockRay.maxDistanceFilter(entity.getLocation().getPosition(), 100)).end() 
 		} catch (NoSuchElementException e) {// Caused by: java.util.NoSuchElementException: Filter limit reached
@@ -80,7 +79,7 @@ class TurtleImpl implements Turtle {
 	}
 	
 	def private Direction getDirection(Vector3d rotation) {
-		var Direction initialDirection=Direction.getClosestHorizontal(rotation, Division.CARDINAL) 
+		var Direction initialDirection = Direction.getClosestHorizontal(rotation, Division.CARDINAL) 
 		if (initialDirection.equals(Direction.NONE)) {
 			logger.warn("getDirection: Failed, cannot be NONE, so assuming NORTH") 
 			return Direction.NORTH 
@@ -92,27 +91,27 @@ class TurtleImpl implements Turtle {
 	// ---
 	
 	override void setBlockType(BlockType blockType) {
-		this.blockType=blockType 
+		this.blockType = blockType 
 	}
 	
 	// ---
 	
 	override void setBlockOnMove() {
-		isSettingBlockOnMove=true 
+		isSettingBlockOnMove = true 
 	}
 	
 	override void noSetBlockOnMove() {
-		isSettingBlockOnMove=false 
+		isSettingBlockOnMove = false 
 	}
 	
 	// ---
 	
 	override void rt() {
 		switch (direction) {
-			case NORTH: direction=Direction.EAST
-			case EAST:  direction=Direction.SOUTH
-			case SOUTH: direction=Direction.WEST
-			case WEST: 	direction=Direction.NORTH
+			case NORTH: direction = Direction.EAST
+			case EAST:  direction = Direction.SOUTH
+			case SOUTH: direction = Direction.WEST
+			case WEST: 	direction = Direction.NORTH
 			default: throw new IllegalStateException(direction.toString())
 		}
 		onChangeDirection(direction)
@@ -120,10 +119,10 @@ class TurtleImpl implements Turtle {
 	
 	override void lt() {
 		switch (direction) {
-			case NORTH: direction=Direction.WEST
-			case EAST:  direction=Direction.NORTH
-			case SOUTH: direction=Direction.EAST
-			case WEST:  direction=Direction.SOUTH
+			case NORTH: direction = Direction.WEST
+			case EAST:  direction = Direction.NORTH
+			case SOUTH: direction = Direction.EAST
+			case WEST:  direction = Direction.SOUTH
 			default: throw new IllegalStateException(direction.toString())
 		}
 		onChangeDirection(direction) 
@@ -162,10 +161,10 @@ class TurtleImpl implements Turtle {
 
 	def private Location<World> move(Direction directionToMove) {
 		setBlockIfPenDown() 
-		var Vector3i oldBlockPosition=location.getBlockPosition() 
+		var Vector3i oldBlockPosition = location.getBlockPosition() 
 		// TODO For performance, it would be better if Direction class had a toVector3i
-		var Vector3i newBlockPosition=oldBlockPosition.add(directionToMove.toVector3d().toInt()) 
-		location=new Location<World>(location.getExtent(),newBlockPosition) 
+		var Vector3i newBlockPosition = oldBlockPosition.add(directionToMove.toVector3d().toInt()) 
+		location = new Location<World>(location.getExtent(),newBlockPosition) 
 		onMove(location) 
 		return location 
 	}
