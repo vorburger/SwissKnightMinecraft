@@ -25,11 +25,10 @@
 package ch.vorburger.minecraft.command;
 
 import org.spongepowered.api.command.source.LocatedSource;
-import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.text.Text;
 
 // TODO This class should ultimately be moved into /SpongeTests/src/test/java/ch/vorburger/minecraft/testsinfra/tests
-@Plugin(id = MonologueChatPlugin.ID, name = "Chat with yourself", description = "Integration Tests Self/Monologue Chat", version = "1.0")
+//@Plugin(id = MonologueChatPlugin.ID, name = "Chat with yourself", description = "Integration Tests Self/Monologue Chat", version = "1.0")
 public class MonologueChatPlugin extends AbstractPluginWithCommands {
 	public final static String ID = "ch.vorburger.minecraft.tests.selfchat";
 

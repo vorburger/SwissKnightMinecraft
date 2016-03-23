@@ -7,7 +7,9 @@ import org.spongepowered.api.plugin.PluginContainer;
 
 import com.google.inject.Inject;
 
-public abstract class AbstractPluginWithCommands {
+import ch.vorburger.minecraft.hot.AbstractHotPlugin;
+
+public abstract class AbstractPluginWithCommands extends AbstractHotPlugin {
 
 	protected @Inject PluginContainer plugin;
 
@@ -19,14 +21,18 @@ public abstract class AbstractPluginWithCommands {
 	protected void onServerStopping() {
 	}
 
+	@Override
 	@Listener
 	public final void onServerStarting(GameStartingServerEvent event) {
+		super.onServerStarting(event);
 		commandManager.register(plugin, this);
 		onServerStarting();
 	}
 
+	@Override
 	@Listener
 	public final void onServerStopping(GameStoppingServerEvent event) {
+		super.onServerStopping(event);
 		commandManager.unregisterAll();
 		onServerStopping();
 	}

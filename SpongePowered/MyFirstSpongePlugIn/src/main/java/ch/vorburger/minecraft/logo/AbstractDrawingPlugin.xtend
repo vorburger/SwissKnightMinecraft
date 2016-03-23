@@ -27,15 +27,20 @@ abstract class AbstractDrawingPlugin extends AbstractPluginWithCommands {
     // TODO The LIVE support should, eventually, be outside of this plugin, as a "mode" re-running the last entered command
     
     override onServerStopping() {
-        turtle?.undo
-        config.save
+        if (isHotReloading()) {
+            turtle?.undo
+            config.save
+        }
     }
 
     override onServerStarting() {
-        turtle = config.load(Configuration).turtleSnapshot.restore
-        // TODO cannot hardcode house here, obviously.. so how to do this better?
-        redrawLast
+        if (isHotReloading) {
+        turtle = config?.load(Configuration)?.turtleSnapshot?.restore
+            if (turtle != null)
+                redrawLast
+        }
     }
+    // TODO cannot hardcode house here, obviously.. so how to do this better instead of this silly redrawLast()?
     def abstract void redrawLast()
     
     // TODO this should happen automatically.. the @Command could add dyn. wrap execution into this - unless Sponge ALREADY has stats for timing commands, see https://docs.spongepowered.org/en/server/spongineer/commands.html ?
@@ -50,8 +55,9 @@ abstract class AbstractDrawingPlugin extends AbstractPluginWithCommands {
         timed("/undo", [ turtle?.undo turtle = null ])
     }
     
-    @ConfigSerializable static protected class Configuration {
+    @ConfigSerializable static public class Configuration {
         @Setting public TurtleSnapshot turtleSnapshot
+        @Setting public String tempTest = "hello, world"
     } 
     
 }
