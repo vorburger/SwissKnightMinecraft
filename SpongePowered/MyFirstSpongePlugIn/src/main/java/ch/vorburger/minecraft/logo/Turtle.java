@@ -1,6 +1,7 @@
 package ch.vorburger.minecraft.logo;
 
 import org.spongepowered.api.block.BlockType;
+import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -30,4 +31,5 @@ public interface Turtle {
 
 	Location<World> getLocation();
 
+	Direction getDirection();
 }
