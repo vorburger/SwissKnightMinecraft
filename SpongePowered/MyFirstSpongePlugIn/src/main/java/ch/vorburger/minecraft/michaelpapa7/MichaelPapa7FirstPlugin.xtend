@@ -46,7 +46,11 @@ class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
 
     @Command def house(LocatedSource source) {
         turtle = new UndoableTurtle(source)
-        timed("/house", [ house_(10) ])
+        config.configuration.turtleSnapshot = turtle.createSnapshot
+        timed("/house", [ redrawLast() ])
+    }
+    override redrawLast() {
+        house_(10)
     }
     
     def house_(int size) {
@@ -75,7 +79,7 @@ class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
     def city() {
         // TODO random house or skyscraper, scattered around randomly
     }
-     
+    
     // TODO def roof()
     
 }

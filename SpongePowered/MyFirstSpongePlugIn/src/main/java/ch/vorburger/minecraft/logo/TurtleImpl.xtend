@@ -40,12 +40,18 @@ class TurtleImpl implements Turtle {
 		if (locatedSource instanceof Entity) {
 			init((locatedSource as Entity)) 
 		} else {
-			System.out.println("NaE so fixed direction") 
 			this.location  = locatedSource.getLocation() 
 			this.direction = Direction.SOUTH 
 			this.blockType = BlockTypes.STONE 
 		}
 	}
+    
+    new(Location<World> location, Direction direction, BlockType blockType, boolean isSettingBlockOnMove) {
+        this.location  = location 
+        this.direction = direction
+        this.blockType = blockType
+        this.isSettingBlockOnMove = isSettingBlockOnMove
+    }
 	
 	def private void init(Entity player) {
 		this.location  = getStartingLocation(player) 
@@ -195,6 +201,14 @@ class TurtleImpl implements Turtle {
 	override Direction getDirection() {
         return direction;
     }
+    
+    override getBlockType() {
+        return this.blockType
+    }
+	
+	override TurtleSnapshot createSnapshot() {
+	    return new TurtleSnapshot(location, direction, blockType, isSettingBlockOnMove)
+	}
 	
 	//	void interact() {
 	//		// TODO missing Direction arg, req. in latest 2.1-SNAPSHOT ?
