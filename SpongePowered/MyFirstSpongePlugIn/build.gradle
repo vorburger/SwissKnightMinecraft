@@ -38,3 +38,11 @@ compileJava {
 tasks.withType(JavaCompile) {
     options.compilerArgs += ["-parameters"]  
 }
+
+xtend {
+    validator {
+        // Do *NOT* use "sneaky throwing" (see https://eclipse.org/xtend/documentation/202_xtend_classes_members.html#declared-exceptions)
+        // because it causes very hard to track NoClassDefFoundError in conjunction with the ch.vorburger.hotea HOT Class reloading 
+        error 'org.eclipse.xtext.xbase.validation.IssueCodes.unhandled_exception'
+    }
+}
