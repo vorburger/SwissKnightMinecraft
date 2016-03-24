@@ -67,7 +67,7 @@ public class AnnotatedCommandManager {
 	// @see org.spongepowered.common.event.SpongeEventManager.register(PluginContainer, Object)
 	public void register(final PluginContainer plugin, final Object instanceOfClassWithCommandAnnotatedMethods) {
 		final Class<?> handle = instanceOfClassWithCommandAnnotatedMethods.getClass();
-		for (final Method method : handle.getDeclaredMethods()) {
+		for (final Method method : handle.getMethods()) {
 			Command commandAnnotation = method.getAnnotation(Command.class);
 			if (commandAnnotation != null) {
 				if (isValidHandler(method)) {

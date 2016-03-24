@@ -8,6 +8,7 @@ import org.spongepowered.api.plugin.Plugin
 
 import static extension ch.vorburger.xtend.IntegerExtensions2.*
 import org.spongepowered.api.block.BlockTypes
+import org.spongepowered.api.entity.ArmorEquipable
 
 @Plugin(id="michaelpapa7", name="michaelpapa7", version="1.0")
 class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
@@ -75,14 +76,13 @@ class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
         house_                
     }
 
-    @Command def house(LocatedSource source) {
+    @Command def houses(LocatedSource source) {
         turtle = new UndoableTurtle(source)
         config.configuration.turtleSnapshot = turtle.createSnapshot
-        timed("/house", [ redrawLast() ])
+        timed("/houses", [ redrawLast() ])
     }
     override redrawLast() {
         settlement()
     }
-    
     
 }

@@ -10,7 +10,7 @@ import org.spongepowered.api.world.World
  * 
  * Turtles, contrary to Players:<ul>
  *  <li>never move diagonally;
- *  <li>never "hit" obstacles, or "fall" lower due to gravity - they just move, like a.. bulldozer, in thin air, and "into" anything;
+ *  <li>never "hit" obstacles, or "fall" lower due to gravity - they just move, flying in thin air, but also effortlessly "into" anything as if it was butter;
  *  <li>hold one kind of Block, like a Player's current one, by default the one of the Player who created the Turtle, and can then change that to any kind; 
  *  <li>place their current Block (like right-click) by default, but have have their "pen up" to move around without drawing;
  * </ul>
