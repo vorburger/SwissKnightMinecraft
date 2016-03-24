@@ -18,9 +18,7 @@ import com.flowpowered.math.vector.Vector3d
 import com.flowpowered.math.vector.Vector3i
 
 /** 
- * Turtle.
- * @see <a href="https://en.wikipedia.org/wiki/Logo_(programming_language)">Logo (programming language) on Wikipedia</a>
- * @see <a href="http://computercraft.info/wiki/Turtle_(API)">Computer Craft Turtle API</a>
+ * Turtle implementation.
  *
  * @author Michael Vorburger
  */
@@ -137,30 +135,18 @@ class TurtleImpl implements Turtle {
 	def protected void onChangeDirection(Direction newDirection) {
 	}
 	
-	/** 
-	 * W
-	 */
 	override Location<World> fwd() {
 		return move(direction) 
 	}
 
-	/** 
-	 * S 
-	 */
 	override Location<World> back() {
 		return move(direction.getOpposite()) 
 	}
 
-	/** 
-	 * Space 
-	 */
 	override Location<World> up() {
 		return move(Direction.UP) 
 	}
 
-	/** 
-	 * Shift 
-	 */
 	override Location<World> down() {
 		return move(Direction.DOWN) 
 	}
