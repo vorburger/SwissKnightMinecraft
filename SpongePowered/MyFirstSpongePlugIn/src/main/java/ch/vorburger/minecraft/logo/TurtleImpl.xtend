@@ -16,6 +16,7 @@ import org.spongepowered.api.world.Location
 import org.spongepowered.api.world.World
 import com.flowpowered.math.vector.Vector3d
 import com.flowpowered.math.vector.Vector3i
+import org.spongepowered.api.entity.ArmorEquipable
 
 /** 
  * Turtle implementation.
@@ -51,11 +52,15 @@ class TurtleImpl implements Turtle {
         this.isSettingBlockOnMove = isSettingBlockOnMove
     }
 	
-	def private void init(Entity player) {
-		this.location  = getStartingLocation(player) 
-		this.direction = getDirection(player.getRotation()) 
-		// TODO how to obtain Player's current Block? (+ Separate constructors for Entity & Player.) - Player.getItemInHand() => ItemStack.getItem().getBlockType()
-		this.blockType = BlockTypes.STONE 
+	def private void init(Entity entity) {
+		this.location  = getStartingLocation(entity) 
+		this.direction = getDirection(entity.getRotation())
+		val defaultBlockType = BlockTypes.STONE
+		this.blockType = switch entity {
+		    ArmorEquipable: if (entity.itemInHand.isPresent) entity.itemInHand.get.item.block.orElse(defaultBlockType) else defaultBlockType
+		    default: defaultBlockType
+		}
+		System.out.println((entity as ArmorEquipable).itemInHand.get.item.block.get)
 	}
 	
 	def private Location<World> getStartingLocation(Entity entity) {
