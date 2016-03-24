@@ -21,14 +21,14 @@ abstract class AbstractDrawingPlugin extends AbstractPluginWithCommands {
     // TODO Think through multi-user usage properly.. Configuration is not doing multi-user right.
 
     @Inject protected ConfigurationPersister<Configuration> config
-    /* @Inject */ protected var extension UndoableTurtle turtle
+    /* @Inject */ protected var extension Turtle turtle // API (interface) here, not impl; as using code sees this extension
 
     // LIVE is Life (Opus, e.g. https://www.youtube.com/watch?v=EGikhmjTSZI)
     // TODO The LIVE support should, eventually, be outside of this plugin, as a "mode" re-running the last entered command
     
     override onServerStopping() {
         if (isHotReloading()) {
-            turtle?.undo
+            (turtle as UndoableTurtle)?.undo
             config.save
         }
     }
@@ -52,7 +52,7 @@ abstract class AbstractDrawingPlugin extends AbstractPluginWithCommands {
     }
     
     @Command def undo(LocatedSource source) {
-        timed("/undo", [ turtle?.undo turtle = null ])
+        timed("/undo", [ (turtle as UndoableTurtle)?.undo turtle = null ])
     }
     
     @ConfigSerializable static public class Configuration {
