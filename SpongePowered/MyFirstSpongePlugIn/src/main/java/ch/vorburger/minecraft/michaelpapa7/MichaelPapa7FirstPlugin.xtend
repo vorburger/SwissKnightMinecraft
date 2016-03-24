@@ -41,16 +41,9 @@ class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
         box(size, size, size)
     }
 
-    @Command def house(LocatedSource source) {
-        turtle = new UndoableTurtle(source)
-        config.configuration.turtleSnapshot = turtle.createSnapshot
-        timed("/house", [ redrawLast() ])
-    }
-    override redrawLast() {
-        house_()
-    }
-    
     def house_() {
+        val originalBlockType = blockType
+        setBlockOnMove
         box(7, 6, 5)
 
         noSetBlockOnMove
@@ -67,12 +60,29 @@ class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
         down
         remove
         
-        blockType = BlockTypes.WOODEN_DOOR
-        set
+        //blockType = BlockTypes.WOODEN_DOOR
+        //set
+        blockType = originalBlockType
+        noSetBlockOnMove
     }
     
-    def village() {
-        // TODO random house or skyscraper, scattered around randomly
+    def settlement() {
+        house_
+        14.times[fwd]
+        house_
+        rt
+        10.times[fwd]
+        house_                
     }
+
+    @Command def house(LocatedSource source) {
+        turtle = new UndoableTurtle(source)
+        config.configuration.turtleSnapshot = turtle.createSnapshot
+        timed("/house", [ redrawLast() ])
+    }
+    override redrawLast() {
+        settlement()
+    }
+    
     
 }
