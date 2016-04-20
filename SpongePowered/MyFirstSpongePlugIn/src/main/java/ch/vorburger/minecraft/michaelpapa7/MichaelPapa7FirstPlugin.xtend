@@ -8,10 +8,66 @@ import org.spongepowered.api.plugin.Plugin
 
 import static extension ch.vorburger.xtend.IntegerExtensions2.*
 import org.spongepowered.api.block.BlockTypes
-import org.spongepowered.api.entity.ArmorEquipable
 
 @Plugin(id="michaelpapa7", name="michaelpapa7", version="1.0")
 class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
+
+
+    @Command def line(LocatedSource source) {
+        turtle = new UndoableTurtle(source)
+        10.times[ fwd ]
+    }
+
+    @Command def square(LocatedSource source) {
+        turtle = new UndoableTurtle(source)
+        4.times[
+            7.times[ fwd ] 
+            rt
+        ]
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def line(int length) { 
         (length-1).times[fwd] (length-1).times[back]
@@ -38,10 +94,6 @@ class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
         plank(side1, side2)
     }
     
-    def cube(int size) { 
-        box(size, size, size)
-    }
-
     def house_() {
         val originalBlockType = blockType
         setBlockOnMove
@@ -67,13 +119,20 @@ class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
         noSetBlockOnMove
     }
     
-    def settlement() {
+    def houses() {
         house_
-        14.times[fwd]
+        10.times[fwd]
         house_
         rt
-        10.times[fwd]
+        8.times[fwd]
         house_                
+    }
+
+
+
+
+    def cube(int size) { 
+        box(size, size, size)
     }
 
     @Command def houses(LocatedSource source) {
@@ -82,7 +141,7 @@ class MichaelPapa7FirstPlugin extends AbstractDrawingPlugin {
         timed("/houses", [ redrawLast() ])
     }
     override redrawLast() {
-        settlement()
+        houses()
     }
     
 }
