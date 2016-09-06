@@ -1,0 +1,26 @@
+//apply plugin: 'java'
+//apply plugin: 'eclipse'
+
+plugins {
+	// https://docs.spongepowered.org/master/en/plugin/project/gradle.html
+    id 'org.spongepowered.plugin' version '0.6'
+}
+
+group = 'ch.vorburger.minecraft'
+version = '1.0-SNAPSHOT'
+description = 'Learn things while playing in Minecraft'
+
+/*
+repositories {
+//  mavenCentral()
+    maven {
+        name = 'sponge'
+        url = 'http://repo.spongepowered.org/maven'
+    }
+}
+*/
+
+dependencies {
+    compile 'org.spongepowered:spongeapi:4.1.0'
+	compile 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.0.0'
+}

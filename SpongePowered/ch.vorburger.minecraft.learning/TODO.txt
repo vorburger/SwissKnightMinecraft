@@ -1,0 +1,4 @@
+
+Spawn 1 Professor per World, instead of 1 per player, and destroy him on shutdown (or named, and save)
+
+ 
